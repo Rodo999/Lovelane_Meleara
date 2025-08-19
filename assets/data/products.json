@@ -7,7 +7,7 @@
       "price": 0,
       "category": "flores",
       "image": "imagenes/flores_personalizadas.jpeg",
-      "badge": "A tu gusto",
+      "badge": "A tu gusto 💐",
       "featured": true,
       "customLink": true,
       "link": "cotizacion.html#personalizadas"
@@ -25,21 +25,21 @@
     {
       "id": "ramo-premium",
       "name": "Ramo premium",
-      "desc": "24 rosas + mo��o + tarjeta",
-      "price": 700,
+      "desc": "24 rosas + 2 girasoles + tarjeta personalizada",
+      "price": 750,
       "category": "flores",
-      "image": "https://images.unsplash.com/photo-1491557345352-5929e343eb89?q=80&w=1400&auto=format&fit=crop",
-      "badge": "Recomendado",
+      "image": "imagenes/ramo_premium.jpeg",
+      "badge": "Recomendado 💫",
       "featured": true
     },
     {
       "id": "arreglo-lujo",
       "name": "Arreglo de lujo",
-      "desc": "50 rosas + 3 girasoles + caja de lujo (desde $1,500)",
-      "price": 1500,
+      "desc": "50 rosas + 6 girasoles + caja de lujo",
+      "price": 1555,
       "category": "flores",
-      "image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1400&auto=format&fit=crop",
-      "badge": "Desde",
+      "image": "imagenes/arreglo_lujo.jpeg",
+      "badge": "Desde ❤️‍🔥",
       "featured": false
     },
     {
@@ -58,7 +58,7 @@
       "desc": "Paquete de 12 rosas.",
       "price": 250,
       "category": "flores",
-      "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1400&auto=format&fit=crop",
+      "image": "imagenes/rosas_12.jpeg",
       "badge": null,
       "featured": false
     },
@@ -68,7 +68,7 @@
       "desc": "Paquete de 24 rosas.",
       "price": 450,
       "category": "flores",
-      "image": "https://images.unsplash.com/photo-1528795259021-d8c86e14354c?q=80&w=1400&auto=format&fit=crop",
+      "image": "imagenes/rosas_24.jpeg",
       "badge": null,
       "featured": false
     },
@@ -76,9 +76,9 @@
       "id": "rosas-50",
       "name": "50 Rosas",
       "desc": "Paquete de 50 rosas.",
-      "price": 1000,
+      "price": 750,
       "category": "flores",
-      "image": "https://images.unsplash.com/photo-1587017539504-67cfbddac569?q=80&w=1400&auto=format&fit=crop",
+      "image": "imagenes/rosas_50.jpeg",
       "badge": null,
       "featured": false
     },
@@ -88,7 +88,7 @@
       "desc": "Paquete de 100 rosas.",
       "price": 1000,
       "category": "flores",
-      "image": "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80&w=1400&auto=format&fit=crop",
+      "image": "imagenes/rosas_100.jpeg",
       "badge": null,
       "featured": false
     }
