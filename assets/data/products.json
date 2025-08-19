@@ -1,4 +1,4 @@
-{
+d{
   "products": [
     {
       "id": "flores-personalizadas",
@@ -89,7 +89,7 @@
       "price": 1000,
       "category": "flores",
       "image": "imagenes/rosas_100.jpeg",
-      "badge": null,
+      "badge": "Verdadero Amor 💞",
       "featured": false
     }
   ]
