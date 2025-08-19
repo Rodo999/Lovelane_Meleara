@@ -22,7 +22,9 @@ exports.handler = async function (event) {
   const url = new URL(`${supaUrl}/rest/v1/orders`);
   // Campos seleccionados y orden
   url.searchParams.set('select', '*');
-  url.searchParams.set('order', 'created_at.desc');
+  const orderBy = (qs.order_by || 'created_at');
+  const orderDir = (qs.order_dir || 'desc');
+  url.searchParams.set('order', `${orderBy}.${orderDir}`);
 
   // Filtros opcionales
   const qs = event.queryStringParameters || {};
