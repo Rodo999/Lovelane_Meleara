@@ -41,10 +41,22 @@
                 <input class="input" id="fStart" type="datetime-local" />
                 <input class="input" id="fEnd" type="datetime-local" />
                 <input class="input" id="fLimit" type="number" min="1" max="200" value="50" />
+                <select class="select" id="fOrderBy">
+                  <option value="created_at">created_at</option>
+                  <option value="amount_total">amount_total</option>
+                  <option value="customer_email">customer_email</option>
+                  <option value="status">status</option>
+                </select>
+                <select class="select" id="fOrderDir">
+                  <option value="desc">desc</option>
+                  <option value="asc">asc</option>
+                </select>
                 <button class="btn btn--primary" id="btnLoad">Cargar</button>
                 <button class="btn btn--ghost" id="btnNext">Siguiente</button>
                 <button class="btn btn--ghost" id="btnPrev">Anterior</button>
                 <button class="btn btn--gold" id="btnCSV">Exportar CSV</button>
+                <button class="btn btn--ghost" id="btnJSON">Exportar JSON</button>
+                <label class="chip"><input type="checkbox" id="autoRefresh" /> Auto-refresco (30s)</label>
               </div>
             </div>
           </div>
@@ -78,10 +90,22 @@
                 <th>Monto</th>
                 <th>Moneda</th>
                 <th>Items</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody id="rows"></tbody>
           </table>
+        </div>
+
+        <!-- Modal simple -->
+        <div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9999;">
+          <div style="background:#fff; margin:10vh auto; padding:16px; width:min(900px,92%); border-radius:14px;">
+            <div class="flex justify-between items-center mb-12">
+              <h3 class="m-0">Detalle de pedido</h3>
+              <button class="btn btn--ghost" id="modalClose">Cerrar</button>
+            </div>
+            <pre id="modalBody" style="white-space:pre-wrap; max-height:60vh; overflow:auto;"></pre>
+          </div>
         </div>
       </div>
     </section>
@@ -135,6 +159,7 @@
     }
 
     let offset = 0;
+    let autoTimer = null;
 
     function buildQS(){
       const qs = new URLSearchParams();
@@ -144,8 +169,12 @@
       const fStart = document.getElementById('fStart').value;
       const fEnd = document.getElementById('fEnd').value;
       const fLimit = Math.min(200, Math.max(1, Number(document.getElementById('fLimit').value || 50)));
+      const orderBy = document.getElementById('fOrderBy').value;
+      const orderDir = document.getElementById('fOrderDir').value;
       qs.set('limit', String(fLimit));
       qs.set('offset', String(offset));
+      qs.set('order_by', orderBy);
+      qs.set('order_dir', orderDir);
       if (fEmail) qs.set('email', fEmail);
       if (fSearch) qs.set('search', fSearch);
       if (fStatus) qs.set('status', fStatus);
@@ -190,8 +219,34 @@
           <td>${r.status||''}</td>
           <td>${money(r.amount_total, r.currency)}</td>
           <td>${(r.currency||'').toUpperCase()}</td>
-          <td><pre style="white-space:pre-wrap;">${JSON.stringify(r.items||[], null, 2)}</pre></td>`;
+          <td><pre style="white-space:pre-wrap;">${JSON.stringify(r.items||[], null, 2)}</pre></td>
+          <td>
+            <div class="flex">
+              <button class="btn btn--ghost" data-act="view" data-id="${r.session_id}">Ver</button>
+              <button class="btn btn--primary" data-act="mark-paid" data-id="${r.session_id}">Marcar pagado</button>
+              <button class="btn btn--gold" data-act="add-note" data-id="${r.session_id}">Añadir nota</button>
+            </div>
+          </td>`;
         tbody.appendChild(tr);
+      });
+
+      // Acciones
+      tbody.querySelectorAll('button[data-act]').forEach(btn => {
+        const act = btn.getAttribute('data-act');
+        const id = btn.getAttribute('data-id');
+        btn.addEventListener('click', async ()=>{
+          if (act === 'view') {
+            document.getElementById('modalBody').textContent = JSON.stringify(data.find(x=>x.session_id===id)||{}, null, 2);
+            document.getElementById('modal').style.display = '';
+          }
+          if (act === 'mark-paid') {
+            await updateOrder(id, { status: 'paid' });
+          }
+          if (act === 'add-note') {
+            const note = prompt('Escribe una nota para este pedido:');
+            if (note) await updateOrder(id, { note });
+          }
+        });
       });
       summary.style.display = '';
       summary.textContent = `Registros: ${data.length} | Total: ${money(total, 'MXN')}`;
@@ -202,6 +257,19 @@
     document.getElementById('btnAddAdmin').addEventListener('click', addAdmin);
     document.getElementById('btnNext').addEventListener('click', ()=>{ offset += Math.min(200, Math.max(1, Number(document.getElementById('fLimit').value||50))); loadOrders(); });
     document.getElementById('btnPrev').addEventListener('click', ()=>{ offset = Math.max(0, offset - Math.min(200, Math.max(1, Number(document.getElementById('fLimit').value||50)))); loadOrders(); });
+    document.getElementById('btnJSON').addEventListener('click', async ()=>{
+      const token = document.getElementById('token').value.trim();
+      const qs = buildQS();
+      const res = await fetch('/.netlify/functions/list-orders?'+qs.toString(), { headers: { 'x-admin-token': token } });
+      const data = await res.json();
+      if (!res.ok) { alert('Error: '+(data.error || JSON.stringify(data))); return; }
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pedidos.json';
+      a.click();
+    });
+
     document.getElementById('btnCSV').addEventListener('click', async ()=>{
       const token = document.getElementById('token').value.trim();
       const qs = buildQS();
@@ -214,6 +282,26 @@
       a.href = URL.createObjectURL(blob);
       a.download = 'pedidos.csv';
       a.click();
+    });
+  async function updateOrder(session_id, patch){
+      const token = document.getElementById('token').value.trim();
+      const res = await fetch('/.netlify/functions/update-order', {
+        method: 'PATCH', headers: { 'x-admin-token': token, 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id, ...patch })
+      });
+      if (!res.ok) { const t = await res.text(); alert('Error: '+t); return; }
+      loadOrders();
+    }
+
+    // Modal
+    document.getElementById('modalClose').addEventListener('click', ()=>{ document.getElementById('modal').style.display='none'; });
+
+    // Auto refresco
+    document.getElementById('autoRefresh').addEventListener('change', (e)=>{
+      if (e.target.checked) {
+        autoTimer = setInterval(loadOrders, 30000);
+      } else {
+        clearInterval(autoTimer); autoTimer = null;
+      }
     });
   </script>
 </body>
