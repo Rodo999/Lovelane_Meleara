@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LM | Inicio</title>
+  <meta name="description" content="Florería, lámparas personalizadas y recuerdos. Detalles que iluminan y florecen tus momentos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" href="imagenes/logo.png" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand" aria-label="Lovelane Meleara Inicio">
+        <img class="brand__img" src="imagenes/logo.png" alt="Lovelane Meleara" />
+        <div class="LoveMe">
+          <span class="normal"><red>Love</red>lane</span>
+          <span class="normal"><red>Me</red>leara</span>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="pagos.html">Pagos</a>
+        <a href="contacto.html">Ubicación y Contacto</a>
+        <a href="blog.html">Blog</a>
+        <a href="cuenta.html">Cuenta</a>
+        <a href="carrito.html" class="btn btn--light">Carrito <span id="cart-badge" class="nav__badge"></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero__content container">
+        <h1 class="hero__title">Detalles que iluminan y florecen tus momentos</h1>
+        <p class="hero__tagline">Florería, lámparas personalizadas y recuerdos para cada ocasión especial.</p>
+        <div class="hero__actions">
+          <a href="catalogo.html#flores" class="btn btn--gold">Comprar Flores</a>
+          <a href="catalogo.html#lamparas" class="btn btn--primary">Ver Lámparas/Recuerdos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destacados -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Destacados</h2>
+        <p class="section-subtitle">Nuestros más vendidos y la promoción de temporada</p>
+        <hr class="hr-accent" />
+
+        <div id="featured-products" class="grid grid--3 mb-32"></div>
+
+        <!-- Promoción de temporada -->
+        <div class="promo">
+          <div>
+            <h3 class="promo__title">Combo Doble: Amor y Luz</h3>
+            <p class="promo__desc">Lleva un ramo clásico + lámpara infinita.</p>
+            <div class="chips mb-16">
+              <span class="chip chip--accent">Rosas 🌹</span>
+              <span class="chip chip--accent">Girasoles 🌻</span>
+              <span class="chip chip--accent">Luz Infinita 🩷</span>
+            </div>
+            <a href="catalogo.html#paquetes" class="btn btn--gold">Ver Paquetes</a>
+            <a href="http://link.mercadopago.com.mx/radam" class="btn btn--ghost" target="_blank" rel="noopener">Pagar ahora</a>
+          </div>
+          <div class="promo__media">
+            <img src="https://images.unsplash.com/photo-1502989642968-94fbdc9eace4?q=80&w=1400&auto=format&fit=crop" alt="Promoción flores y lámpara" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand">
+          <img class="footer__img" src="imagenes/logo.png" alt="Lovelane Meleara" />
+          <div>
+            <strong>Lovelane Meleara</strong>
+            <p class="m-0">Detalles con flores y luz</p>
+          </div>
+        </div>
+        <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="cotizacion.html">Cotización</a></li>
+          <li><a href="pagos.html">Métodos de Pago</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto rápido</h4>
+        <p class="m-0">WhatsApp: <a href="https://wa.me/527226128347" target="_blank" rel="noopener">+52 722 612 8347</a></p>
+        <p class="m-0">Correo: <a href="mailto:hola@lovelanemeleara.com">hola@lovelanemeleara.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://wa.me/527226128347?text=Hola%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank" aria-label="Escríbenos por WhatsApp" rel="noopener">
+    <!-- simple icon -->
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M20.52 3.48A11.78 11.78 0 0 0 12.01 0C5.4 0 .05 5.35.05 11.96c0 2.11.55 4.16 1.6 5.97L0 24l6.25-1.62a11.9 11.9 0 0 0 5.75 1.48h.01c6.61 0 11.96-5.35 11.96-11.96a11.87 11.87 0 0 0-3.45-8.42ZM12 21.9h-.01a9.94 9.94 0 0 1-5.07-1.39l-.36-.21-3.71.96.99-3.62-.24-.37a9.94 9.94 0 0 1-1.53-5.3c0-5.49 4.47-9.96 9.97-9.96a9.9 9.9 0 0 1 7.06 2.92 9.9 9.9 0 0 1 2.92 7.05c0 5.5-4.47 9.97-9.97 9.97Zm5.47-7.44c-.3-.15-1.77-.87-2.04-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.24-.46-2.36-1.48-.87-.78-1.45-1.75-1.62-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.5-.17 0-.37-.02-.57-.02-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49 0 1.46 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.73 2.02-1.44.25-.71.25-1.32.17-1.44-.07-.12-.27-.2-.57-.35Z" fill="#fff"/>
+    </svg>
+  </a>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/catalog.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

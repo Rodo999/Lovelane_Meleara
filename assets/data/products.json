@@ -1,0 +1,96 @@
+{
+  "products": [
+    {
+      "id": "flores-personalizadas",
+      "name": "Flores personalizadas",
+      "desc": "Envíanos tu idea y cotiza tus flores.",
+      "price": 0,
+      "category": "flores",
+      "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1400&auto=format&fit=crop",
+      "badge": "A tu gusto",
+      "featured": true,
+      "customLink": true,
+      "link": "cotizacion.html#personalizadas"
+    },
+    {
+      "id": "ramo-basico",
+      "name": "Ramo básico",
+      "desc": "12 rosas + girasol",
+      "price": 350,
+      "category": "flores",
+      "image": "https://images.unsplash.com/photo-1529634850-1084f7a04f0c?q=80&w=1400&auto=format&fit=crop",
+      "badge": null,
+      "featured": true
+    },
+    {
+      "id": "ramo-premium",
+      "name": "Ramo premium",
+      "desc": "24 rosas + mo��o + tarjeta",
+      "price": 700,
+      "category": "flores",
+      "image": "https://images.unsplash.com/photo-1491557345352-5929e343eb89?q=80&w=1400&auto=format&fit=crop",
+      "badge": "Recomendado",
+      "featured": true
+    },
+    {
+      "id": "arreglo-lujo",
+      "name": "Arreglo de lujo",
+      "desc": "50 rosas + 3 girasoles + caja de lujo (desde $1,500)",
+      "price": 1500,
+      "category": "flores",
+      "image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1400&auto=format&fit=crop",
+      "badge": "Desde",
+      "featured": false
+    },
+    {
+      "id": "lampara-tulipanes-infinitos",
+      "name": "Lámpara de tulipanes infinitos",
+      "desc": "Así como el amor que es infinito.",
+      "price": 200,
+      "category": "lamparas",
+      "image": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1400&auto=format&fit=crop",
+      "badge": null,
+      "featured": true
+    },
+    {
+      "id": "rosas-12",
+      "name": "12 Rosas",
+      "desc": "Paquete de 12 rosas.",
+      "price": 250,
+      "category": "flores",
+      "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1400&auto=format&fit=crop",
+      "badge": null,
+      "featured": false
+    },
+    {
+      "id": "rosas-24",
+      "name": "24 Rosas",
+      "desc": "Paquete de 24 rosas.",
+      "price": 450,
+      "category": "flores",
+      "image": "https://images.unsplash.com/photo-1528795259021-d8c86e14354c?q=80&w=1400&auto=format&fit=crop",
+      "badge": null,
+      "featured": false
+    },
+    {
+      "id": "rosas-50",
+      "name": "50 Rosas",
+      "desc": "Paquete de 50 rosas.",
+      "price": 1000,
+      "category": "flores",
+      "image": "https://images.unsplash.com/photo-1587017539504-67cfbddac569?q=80&w=1400&auto=format&fit=crop",
+      "badge": null,
+      "featured": false
+    },
+    {
+      "id": "rosas-100",
+      "name": "100 Rosas",
+      "desc": "Paquete de 100 rosas.",
+      "price": 1000,
+      "category": "flores",
+      "image": "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80&w=1400&auto=format&fit=crop",
+      "badge": null,
+      "featured": false
+    }
+  ]
+}

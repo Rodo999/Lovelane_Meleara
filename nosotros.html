@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nosotros — Lovelane Meleara</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand"><img class="brand__img" src="imagenes/logo.png" alt="Lovelane Meleara" /><span>Lovelane Meleara</span></a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="pagos.html">Pagos</a>
+        <a href="contacto.html">Ubicación y Contacto</a>
+        <a href="blog.html">Blog</a>
+        <a href="carrito.html" class="btn btn--light">Carrito <span id="cart-badge" class="nav__badge"></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section section--soft">
+      <div class="container">
+        <h1 class="section-title">Nuestra historia</h1>
+        <p class="section-subtitle">Romántica, cercana y con propósito</p>
+        <hr class="hr-accent" />
+        <div class="grid grid--2">
+          <div>
+            <p>
+              Nacimos del deseo de convertir momentos cotidianos en recuerdos memorables. Entre flores, luz cálida y
+              manos dedicadas, creamos piezas que cuentan historias de amor, gratitud y celebración.
+            </p>
+            <p>
+              Cada detalle en Lovelane Meleara está pensado con cariño: desde la selección de flores frescas hasta la
+              personalización de lámparas y recuerdos que acompañan tus ocasiones más especiales.
+            </p>
+          </div>
+          <div>
+            <img src="https://images.unsplash.com/photo-1521577352947-9bb58764b69a?q=80&w=1400&auto=format&fit=crop" alt="Manos trabajando con flores" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid grid--3">
+        <div class="card">
+          <div class="card__media"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop" alt="Misión" /></div>
+          <div class="card__body">
+            <h3 class="card__title">Misión</h3>
+            <p class="card__desc">Crear detalles únicos que iluminen emociones reales, cuidando calidad, diseño y un toque humano.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__media"><img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1400&auto=format&fit=crop" alt="Visión" /></div>
+          <div class="card__body">
+            <h3 class="card__title">Visión</h3>
+            <p class="card__desc">Ser la marca que las personas eligen para decir lo que sienten con flores y luz.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__media"><img src="https://images.unsplash.com/photo-1528795259021-d8c86e14354c?q=80&w=1400&auto=format&fit=crop" alt="Valores" /></div>
+          <div class="card__body">
+            <h3 class="card__title">Valores</h3>
+            <p class="card__desc">Cercanía, cuidado artesanal, responsabilidad y creatividad en cada entrega.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand"><span class="footer__logo"></span><div><strong>Lovelane Meleara</strong><p class="m-0">Detalles con flores y luz</p></div></div>
+        <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="cotizacion.html">Cotización</a></li>
+          <li><a href="pagos.html">Métodos de Pago</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto rápido</h4>
+        <p class="m-0">WhatsApp: <a href="https://wa.me/521234567890" target="_blank" rel="noopener">+52 123 456 7890</a></p>
+        <p class="m-0">Correo: <a href="mailto:hola@lovelanemeleara.com">hola@lovelanemeleara.com</a></p>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/app.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

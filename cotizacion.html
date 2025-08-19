@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cotización Personalizada — Lovelane Meleara</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand"><img class="brand__img" src="imagenes/logo.png" alt="Lovelane Meleara" /><span>Lovelane Meleara</span></a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="pagos.html">Pagos</a>
+        <a href="contacto.html">Ubicación y Contacto</a>
+        <a href="blog.html">Blog</a>
+        <a href="carrito.html" class="btn btn--light">Carrito <span id="cart-badge" class="nav__badge"></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title">Cotización Personalizada</h1>
+        <p class="section-subtitle">Divide tu cotización en Flores personalizadas, Catálogo y Total con descuento.</p>
+        <hr class="hr-accent" />
+
+        <form class="form estimator" id="quoteForm">
+          <!-- Datos del cliente -->
+          <div class="form-row">
+            <div>
+              <label class="label" for="name">Nombre</label>
+              <input class="input" id="name" name="name" placeholder="Tu nombre" required />
+            </div>
+            <div>
+              <label class="label" for="contact">Contacto (WhatsApp o email)</label>
+              <input class="input" id="contact" name="contact" placeholder="Ej. +52 722 612 8347" required />
+            </div>
+          </div>
+
+          <!-- 1. Flores personalizadas -->
+          <h2 id="personalizadas" class="section-title">1. Flores personalizadas</h2>
+          <p class="help">Elige tipo de flor, cantidad y extras opcionales. Puedes agregar varias líneas.</p>
+
+          <div id="customFlowers">
+            <div class="form-row custom-row">
+              <div>
+                <label class="label">Tipo de flor</label>
+                <select class="select cf-type">
+                  <option value="Rosas|25">Rosas — $25</option>
+                  <option value="Girasoles|50">Girasoles — $50</option>
+                  <option value="Tulipanes|70">Tulipanes — $70</option>
+                </select>
+              </div>
+              <div>
+                <label class="label">Cantidad</label>
+                <input class="input cf-qty" type="number" min="1" step="1" value="1" />
+              </div>
+            </div>
+            <div class="chips mb-16">
+              <label class="chip"><input type="checkbox" class="cf-extra" value="40" /> Moño decorativo (+$40)</label>
+              <label class="chip"><input type="checkbox" class="cf-extra" value="250" /> Caja de lujo (+$250)</label>
+              <label class="chip"><input type="checkbox" class="cf-extra" value="50" /> Tarjeta personalizada (+$50)</label>
+            </div>
+          </div>
+          <button type="button" class="btn btn--ghost mb-16" id="addCustom">+ Agregar otra línea</button>
+
+          <div class="estimator mb-24">
+            <h3 class="m-0">Resumen Flores personalizadas</h3>
+            <p class="m-0">Subtotal por flor: <strong id="cfFlowerSubtotal">$0 MXN</strong></p>
+            <p class="m-0">Extras: <strong id="cfExtras">$0 MXN</strong></p>
+            <p class="m-0">Total sección: <strong id="cfTotal" style="color: var(--vino)">$0 MXN</strong></p>
+          </div>
+
+          <!-- 2. Catálogo -->
+          <h2 class="section-title">2. Catálogo</h2>
+          <div class="form-row">
+            <div>
+              <label class="label">Selecciona productos</label>
+              <div id="catalogRows">
+                <div class="form-row cat-row">
+                  <div>
+                    <select class="select cat-item">
+                      <option value="200|Lámpara de tulipanes infinitos">Lámpara de tulipanes infinitos — $200</option>
+                      <option value="250|12 Rosas">12 Rosas — $250</option>
+                      <option value="450|24 Rosas">24 Rosas — $450</option>
+                      <option value="1000|50 Rosas">50 Rosas — $1000</option>
+                      <option value="1000|100 Rosas">100 Rosas — $1000</option>
+                      <option value="350|Ramo básico (12 rosas + girasol)">Ramo básico (12 rosas + girasol) — $350</option>
+                      <option value="700|Ramo premium (24 rosas + moño + tarjeta)">Ramo premium (24 rosas + moño + tarjeta) — $700</option>
+                    </select>
+                  </div>
+                  <div>
+                    <input class="input cat-qty" type="number" min="1" step="1" value="1" />
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn--ghost cat-remove">Eliminar</button>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn--ghost mb-16" id="addCatalogRow">+ Agregar línea de catálogo</button>
+              <p class="help">Puedes agregar varias líneas y cantidades. “Flores personalizadas” se cotiza en la sección 1.</p>
+            </div>
+            <div>
+              <div class="alert mb-12">Subtotal Catálogo</div>
+              <div class="estimator__result" id="catSubtotal">$0 MXN</div>
+            </div>
+          </div>
+
+          <!-- 3. Totales y descuento -->
+          <h2 class="section-title">3. Total y Descuento</h2>
+          <div class="form-row">
+            <div>
+              <label class="label" for="discount">Descuento (%)</label>
+              <input id="discount" class="input" type="number" min="0" max="100" step="1" placeholder="Ej. 10" />
+              <p class="help">Si aplicas un descuento, se descuenta del subtotal general.</p>
+            </div>
+            <div>
+              <div class="alert mb-8">Resumen</div>
+              <p class="m-0">Subtotal Flores personalizadas: <strong id="cfSubtotal">$0 MXN</strong></p>
+              <p class="m-0">Subtotal Catálogo: <strong id="catSubtotal2">$0 MXN</strong></p>
+              <p class="m-0">Descuento: <strong id="discountAmount">$0 MXN</strong></p>
+              <p class="m-0">Total: <strong id="grandTotal" style="color: var(--vino)">$0 MXN</strong></p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label class="label" for="budget">Presupuesto estimado (MXN)</label>
+              <input class="input" id="budget" name="budget" type="number" min="0" step="100" placeholder="Ej. 3000" />
+            </div>
+            <div>
+              <label class="label" for="details">Evento o detalles</label>
+              <input class="input" id="details" name="details" placeholder="Ej. Centros de mesa para 20 mesas" />
+            </div>
+          </div>
+
+          <div class="flex">
+            <button class="btn btn--primary" type="submit">Solicitar Cotización</button>
+            <a id="waLink" class="btn btn--gold" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+          </div>
+        </form>
+
+        <div class="mt-24">
+          <h3 class="section-title">Cómo trabajamos</h3>
+          <p>1. Recibimos tu solicitud y te confirmamos disponibilidad.</p>
+          <p>2. Te proponemos diseños y personalizaciones.</p>
+          <p>3. Ajustamos detalles, fecha y entrega o recolección.</p>
+          <p class="alert">Respuesta humana: Valentina dará seguimiento a cada detalle.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand"><span class="footer__logo"></span><div><strong>Lovelane Meleara</strong><p class="m-0">Detalles con flores y luz</p></div></div>
+        <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="cotizacion.html">Cotización</a></li>
+          <li><a href="pagos.html">Métodos de Pago</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto rápido</h4>
+        <p class="m-0">WhatsApp: <a href="https://wa.me/521234567890" target="_blank" rel="noopener">+52 123 456 7890</a></p>
+        <p class="m-0">Correo: <a href="mailto:hola@lovelanemeleara.com">hola@lovelanemeleara.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const form = document.getElementById('quoteForm');
+    const cfContainer = document.getElementById('customFlowers');
+    const addCustomBtn = document.getElementById('addCustom');
+    const catalogRows = document.getElementById('catalogRows');
+    const addCatalogRowBtn = document.getElementById('addCatalogRow');
+
+    const cfFlowerSubtotalEl = document.getElementById('cfFlowerSubtotal');
+    const cfExtrasEl = document.getElementById('cfExtras');
+    const cfTotalEl = document.getElementById('cfTotal');
+    const cfSubtotalEl = document.getElementById('cfSubtotal');
+    const catSubtotalEl = document.getElementById('catSubtotal');
+    const catSubtotal2El = document.getElementById('catSubtotal2');
+    const discountEl = document.getElementById('discount');
+    const discountAmountEl = document.getElementById('discountAmount');
+    const grandTotalEl = document.getElementById('grandTotal');
+    const waLink = document.getElementById('waLink');
+
+    function money(v){ return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(v||0); }
+
+    function bindRowEvents(row){
+      row.querySelectorAll('input, select').forEach(i=> i.addEventListener('input', calcTotals));
+      row.querySelectorAll('input[type="checkbox"]').forEach(i=> i.addEventListener('change', calcTotals));
+    }
+
+    function createCustomRow(){
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = `
+        <div class="form-row custom-row">
+          <div>
+            <label class="label">Tipo de flor</label>
+            <select class="select cf-type">
+              <option value="Rosas|25">Rosas — $25</option>
+              <option value="Girasoles|50">Girasoles — $50</option>
+              <option value="Tulipanes|70">Tulipanes — $70</option>
+            </select>
+          </div>
+          <div>
+            <label class="label">Cantidad</label>
+            <input class="input cf-qty" type="number" min="1" step="1" value="1" />
+          </div>
+        </div>
+        <div class="chips mb-16">
+          <label class="chip"><input type="checkbox" class="cf-extra" value="40" /> Moño decorativo (+$40)</label>
+          <label class="chip"><input type="checkbox" class="cf-extra" value="250" /> Caja de lujo (+$250)</label>
+          <label class="chip"><input type="checkbox" class="cf-extra" value="50" /> Tarjeta personalizada (+$50)</label>
+        </div>`;
+      const nodes = Array.from(wrapper.childNodes);
+      nodes.forEach(n => cfContainer.appendChild(n));
+      bindRowEvents(cfContainer.lastElementChild.previousElementSibling);
+      bindRowEvents(cfContainer.lastElementChild);
+    }
+
+    function calcCustomSection(){
+      let flowers = 0;
+      let extras = 0;
+      const rows = Array.from(cfContainer.querySelectorAll('.custom-row'));
+      rows.forEach(row => {
+        const [type, unitStr] = (row.querySelector('.cf-type').value || 'Rosas|25').split('|');
+        const unit = Number(unitStr) || 0;
+        const qty = Number(row.querySelector('.cf-qty').value || 0);
+        flowers += unit * qty;
+        // extras están en el siguiente sibling chips
+        const chips = row.nextElementSibling && row.nextElementSibling.matches('.chips') ? row.nextElementSibling : null;
+        if (chips) {
+          chips.querySelectorAll('.cf-extra:checked').forEach(chk => { extras += Number(chk.value || 0); });
+        }
+      });
+      const total = flowers + extras;
+      cfFlowerSubtotalEl.textContent = money(flowers);
+      cfExtrasEl.textContent = money(extras);
+      cfTotalEl.textContent = money(total);
+      cfSubtotalEl.textContent = money(total);
+      return { flowers, extras, total };
+    }
+
+    function calcCatalogSubtotal(){
+      let sum = 0;
+      catalogRows.querySelectorAll('.cat-row').forEach(row => {
+        const sel = row.querySelector('.cat-item');
+        const qty = Number(row.querySelector('.cat-qty').value || 0);
+        const price = Number((sel.value.split('|')[0]) || 0);
+        sum += price * qty;
+      });
+      catSubtotalEl.textContent = money(sum);
+      catSubtotal2El.textContent = money(sum);
+      return sum;
+    }
+
+    function calcTotals(){
+      const cs = calcCustomSection();
+      const s2 = calcCatalogSubtotal();
+      const subtotal = cs.total + s2;
+      const discPerc = Math.min(100, Math.max(0, Number(discountEl.value || 0)));
+      const discAmt = subtotal * (discPerc/100);
+      discountAmountEl.textContent = money(discAmt);
+      grandTotalEl.textContent = money(subtotal - discAmt);
+      return { cs, s2, subtotal, discPerc, discAmt, total: subtotal - discAmt };
+    }
+
+    addCustomBtn.addEventListener('click', createCustomRow);
+
+    // catálogo dinámico
+    function createCatalogRow(){
+      const row = document.createElement('div');
+      row.className = 'form-row cat-row';
+      row.innerHTML = `
+        <div>
+          <select class="select cat-item">
+            <option value="200|Lámpara de tulipanes infinitos">Lámpara de tulipanes infinitos — $200</option>
+            <option value="250|12 Rosas">12 Rosas — $250</option>
+            <option value="450|24 Rosas">24 Rosas — $450</option>
+            <option value="1000|50 Rosas">50 Rosas — $1000</option>
+            <option value="1000|100 Rosas">100 Rosas — $1000</option>
+            <option value="350|Ramo básico (12 rosas + girasol)">Ramo básico (12 rosas + girasol) — $350</option>
+            <option value="700|Ramo premium (24 rosas + moño + tarjeta)">Ramo premium (24 rosas + moño + tarjeta) — $700</option>
+          </select>
+        </div>
+        <div>
+          <input class="input cat-qty" type="number" min="1" step="1" value="1" />
+        </div>
+        <div>
+          <button type="button" class="btn btn--ghost cat-remove">Eliminar</button>
+        </div>`;
+      catalogRows.appendChild(row);
+      bindCatalogRow(row);
+      calcTotals();
+    }
+
+    function bindCatalogRow(row){
+      const sel = row.querySelector('.cat-item');
+      const qty = row.querySelector('.cat-qty');
+      const rm = row.querySelector('.cat-remove');
+      sel.addEventListener('change', calcTotals);
+      qty.addEventListener('input', calcTotals);
+      rm.addEventListener('click', () => { row.remove(); calcTotals(); });
+    }
+
+    // Bind inicial
+    bindCatalogRow(catalogRows.querySelector('.cat-row'));
+    addCatalogRowBtn.addEventListener('click', createCatalogRow);
+
+    // Bind inicial
+    bindRowEvents(cfContainer.querySelector('.custom-row'));
+    const firstChips = cfContainer.querySelector('.chips');
+    if (firstChips) firstChips.querySelectorAll('input').forEach(i=> i.addEventListener('change', calcTotals));
+    catalogRows.addEventListener('change', calcTotals);
+    catalogRows.addEventListener('input', calcTotals);
+    discountEl.addEventListener('input', calcTotals);
+
+    // Submit -> WhatsApp
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      const customDetails = Array.from(cfContainer.querySelectorAll('.custom-row')).map(row => {
+        const sel = row.querySelector('.cf-type');
+        const optText = sel.options[sel.selectedIndex].textContent.trim();
+        const qty = Number(row.querySelector('.cf-qty').value || 0);
+        const unit = Number(sel.value.split('|')[1] || 0);
+        const chips = row.nextElementSibling && row.nextElementSibling.matches('.chips') ? row.nextElementSibling : null;
+        const extras = chips ? Array.from(chips.querySelectorAll('.cf-extra:checked')).map(chk => {
+          const label = chk.parentElement.textContent.trim();
+          const price = Number(chk.value || 0);
+          return { label, price };
+        }) : [];
+        return { optText, qty, unit, extras };
+      }).filter(x => x.qty>0);
+
+      const catLines = Array.from(catalogRows.querySelectorAll('.cat-row')).map(row => {
+        const sel = row.querySelector('.cat-item');
+        const qty = Number(row.querySelector('.cat-qty').value || 0);
+        const [price, name] = sel.value.split('|');
+        return { name, price: Number(price), qty };
+      }).filter(x => x.qty > 0);
+
+      const totals = calcTotals();
+
+      const customStr = customDetails.length
+        ? customDetails.map(x => `${x.qty}× ${x.optText} (unitario ${money(x.unit)})` + (x.extras.length ? ` + extras: ${x.extras.map(e => `${e.label}`).join(', ')}` : '')).join('; ')
+        : 'N/D';
+
+      const text = `Hola, soy ${data.name}. Quiero una cotización.\n\n`+
+        `1) Flores personalizadas: ${customStr}\n`+
+        `Subtotal por flor: ${money(totals.cs.flowers)} | Extras: ${money(totals.cs.extras)} | Total sección: ${money(totals.cs.total)}\n\n`+
+        `2) Catálogo: `+
+        (catLines.length ? catLines.map(x => `${x.qty}× ${x.name} (${money(x.price)})`).join(', ') : 'N/D') + `\n`+
+        `Subtotal Catálogo: ${money(totals.s2)}\n\n`+
+        `Descuento: ${totals.discPerc}% (${money(totals.discAmt)})\n`+
+        `Total: ${money(totals.total)}\n\n`+
+        `Presupuesto: ${data.budget || 'N/D'} MXN\n`+
+        `Detalles: ${data.details || 'N/D'}\n`+
+        `Contacto: ${data.contact}`;
+
+      const url = 'https://wa.me/527226128347?text=' + encodeURIComponent(text);
+      waLink.href = url;
+      waLink.click();
+    });
+
+    // Calcular inicial
+    calcTotals();
+  </script>
+</body>
+</html>

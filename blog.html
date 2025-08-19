@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog e Inspiración — Lovelane Meleara</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand"><img class="brand__img" src="imagenes/logo.png" alt="Lovelane Meleara" /><span>Lovelane Meleara</span></a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="pagos.html">Pagos</a>
+        <a href="contacto.html">Ubicación y Contacto</a>
+        <a href="blog.html">Blog</a>
+        <a href="carrito.html" class="btn btn--light">Carrito <span id="cart-badge" class="nav__badge"></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title">Blog / Inspiración</h1>
+        <p class="section-subtitle">Consejos, ideas y proyectos reales</p>
+        <hr class="hr-accent" />
+
+        <div class="grid grid--3">
+          <article class="card article-card">
+            <div class="card__media"><img src="https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80&w=1400&auto=format&fit=crop" alt="Ramo perfecto" /></div>
+            <div class="card__body">
+              <h3 class="card__title">Cómo elegir el ramo perfecto</h3>
+              <p class="card__desc">Guía rápida por ocasión: cumpleaños, aniversario o agradecimiento.</p>
+              <a class="btn btn--ghost" href="#">Leer</a>
+            </div>
+          </article>
+          <article class="card article-card">
+            <div class="card__media"><img src="https://images.unsplash.com/photo-1529634850-1084f7a04f0c?q=80&w=1400&auto=format&fit=crop" alt="Recuerdos únicos" /></div>
+            <div class="card__body">
+              <h3 class="card__title">Ideas de recuerdos únicos</h3>
+              <p class="card__desc">Personaliza con nombres, fechas y empaques memorables.</p>
+              <a class="btn btn--ghost" href="#">Leer</a>
+            </div>
+          </article>
+          <article class="card article-card">
+            <div class="card__media"><img src="https://images.unsplash.com/photo-1491557345352-5929e343eb89?q=80&w=1400&auto=format&fit=crop" alt="Trabajo real" /></div>
+            <div class="card__body">
+              <h3 class="card__title">Historias con luz y flores</h3>
+              <p class="card__desc">Proyectos reales que nos inspiran cada día.</p>
+              <a class="btn btn--ghost" href="#">Leer</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand"><span class="footer__logo"></span><div><strong>Lovelane Meleara</strong><p class="m-0">Detalles con flores y luz</p></div></div>
+        <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="cotizacion.html">Cotización</a></li>
+          <li><a href="pagos.html">Métodos de Pago</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto rápido</h4>
+        <p class="m-0">WhatsApp: <a href="https://wa.me/521234567890" target="_blank" rel="noopener">+52 123 456 7890</a></p>
+        <p class="m-0">Correo: <a href="mailto:hola@lovelanemeleara.com">hola@lovelanemeleara.com</a></p>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/app.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuenta — Lovelane Meleara</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand"><img class="brand__img" src="imagenes/logo.png" alt="Lovelane Meleara" /><span>Lovelane Meleara</span></a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="carrito.html">Carrito</a>
+        <a href="cuenta.html" class="btn btn--light">Cuenta</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title">Cuenta</h1>
+        <p class="section-subtitle">Crear o iniciar sesión</p>
+        <hr class="hr-accent" />
+
+        <div class="grid grid--2">
+          <div class="estimator">
+            <h3 class="m-0">Crear cuenta</h3>
+            <form class="form" id="signupForm">
+              <input class="input" name="name" placeholder="Nombre" required />
+              <input class="input" name="email" type="email" placeholder="Email" required />
+              <input class="input" name="phone" placeholder="Teléfono (opcional)" />
+              <input class="input" name="password" type="password" placeholder="Contraseña" required />
+              <button class="btn btn--primary" type="submit">Crear</button>
+            </form>
+          </div>
+
+          <div class="estimator">
+            <h3 class="m-0">Iniciar sesión</h3>
+            <form class="form" id="loginForm">
+              <input class="input" name="email" type="email" placeholder="Email" required />
+              <input class="input" name="password" type="password" placeholder="Contraseña" required />
+              <button class="btn btn--primary" type="submit">Entrar</button>
+              <p id="sessionInfo" class="help m-0"></p>
+            </form>
+          </div>
+        </div>
+
+        <div class="estimator mt-24" id="settingsBox" style="display:none;">
+          <h3 class="m-0">Gestión de Cuenta</h3>
+          <p class="m-0">Ya tienes sesión iniciada. Puedes gestionar tu perfil, cambiar tu contraseña o eliminar tu cuenta.</p>
+          <a class="btn btn--gold" href="ajustes-cuenta.html">Ir a Ajustes de cuenta</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand"><span class="footer__logo"></span><div><strong>Lovelane Meleara</strong><p class="m-0">Detalles con flores y luz</p></div></div>
+        <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h4>Contacto rápido</h4>
+        <p class="m-0">WhatsApp: <a href="https://wa.me/527226128347" target="_blank" rel="noopener">+52 722 612 8347</a></p>
+        <p class="m-0">Correo: <a href="mailto:hola@lovelanemeleara.com">hola@lovelanemeleara.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/auth.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const signupForm = document.getElementById('signupForm');
+    const loginForm = document.getElementById('loginForm');
+    const settingsBox = document.getElementById('settingsBox');
+    const sessionInfo = document.getElementById('sessionInfo');
+
+    function toast(msg){ alert(msg); }
+
+    function refreshSessionInfo(){
+      const u = Auth.getCurrentUser();
+      if (u) {
+        sessionInfo.textContent = `Sesión activa: ${u.email}`;
+        settingsBox.style.display = '';
+      } else {
+        sessionInfo.textContent = 'Sin sesión activa';
+        settingsBox.style.display = 'none';
+      }
+    }
+
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(signupForm).entries());
+      try { await Auth.signup(data); toast('Cuenta creada y sesión iniciada'); refreshSessionInfo(); }
+      catch (err) { toast(err.message); }
+    });
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(loginForm).entries());
+      try { await Auth.login(data); toast('Sesión iniciada'); refreshSessionInfo(); }
+      catch (err) { toast(err.message); }
+    });
+
+    refreshSessionInfo();
+  </script>
+</body>
+</html>

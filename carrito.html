@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrito — Lovelane Meleara</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand"><img class="brand__img" src="imagenes/logo.png" alt="Lovelane Meleara" /><span>Lovelane Meleara</span></a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="pagos.html">Pagos</a>
+        <a href="contacto.html">Ubicación y Contacto</a>
+        <a href="blog.html">Blog</a>
+        <a href="carrito.html" class="btn btn--light">Carrito <span id="cart-badge" class="nav__badge"></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title">Tu Carrito</h1>
+        <p class="section-subtitle">Revisa tus productos y procede al checkout</p>
+        <hr class="hr-accent" />
+
+        <div id="cartEmpty" class="alert" style="display:none">Tu carrito está vacío</div>
+
+        <div style="overflow-x:auto;">
+          <table class="table" id="cartTable" style="display:none">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cartBody"></tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" style="text-align:right; font-weight:700;">Total</td>
+                <td id="cartTotal" style="font-weight:700; color: var(--vino);"></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="flex mt-24">
+          <a href="catalogo.html" class="btn btn--ghost">Seguir comprando</a>
+          <a id="checkoutBtn" class="btn btn--primary" style="display:none">Proceder al checkout</a>
+          <a href="http://link.mercadopago.com.mx/radam" class="btn btn--ghost" target="_blank" rel="noopener">Pagar ahora (MercadoPago)</a>
+        </div>
+
+        <div class="estimator mt-24" id="checkoutBox" style="display:none">
+          <h3 class="m-0">Checkout</h3>
+          <p class="mb-12">Selecciona método de pago y completa tus datos.</p>
+          <div class="form-row">
+            <div>
+              <label class="label" for="paymethod">Método de pago</label>
+              <select class="select" id="paymethod">
+                <option>Transferencia</option>
+                <option>Pago contra entrega</option>
+                <option>Link de pago (Stripe/PayPal/MercadoPago)</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="delivery">Entrega</label>
+              <select class="select" id="delivery">
+                <option>Recoger en florería</option>
+                <option>Envío a domicilio</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label class="label" for="address">Dirección (si aplica)</label>
+              <input class="input" id="address" placeholder="Calle, número, colonia, ciudad" />
+            </div>
+            <div>
+              <label class="label" for="email">Email para confirmación</label>
+              <input class="input" id="email" type="email" placeholder="tucorreo@dominio.com" />
+            </div>
+          </div>
+          <button class="btn btn--gold" id="confirmBtn">Confirmar pedido</button>
+          <button class="btn btn--primary" id="payStripeBtn" type="button">Pagar con tarjeta (Stripe)</button>
+          <p class="help">La confirmación llegará por correo y WhatsApp. También puedes pagar con tarjeta de crédito o débito vía Stripe Checkout.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand"><span class="footer__logo"></span><div><strong>Lovelane Meleara</strong><p class="m-0">Detalles con flores y luz</p></div></div>
+        <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="cotizacion.html">Cotización</a></li>
+          <li><a href="pagos.html">Métodos de Pago</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto rápido</h4>
+        <p class="m-0">WhatsApp: <a href="https://wa.me/521234567890" target="_blank" rel="noopener">+52 123 456 7890</a></p>
+        <p class="m-0">Correo: <a href="mailto:hola@lovelanemeleara.com">hola@lovelanemeleara.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/checkout.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function renderCart() {
+      const tbody = document.getElementById('cartBody');
+      const table = document.getElementById('cartTable');
+      const empty = document.getElementById('cartEmpty');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      const cart = getCartItems();
+
+      tbody.innerHTML = '';
+      if (!cart.length) {
+        table.style.display = 'none';
+        checkoutBtn.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+
+      table.style.display = '';
+      checkoutBtn.style.display = '';
+      empty.style.display = 'none';
+
+      let total = 0;
+      cart.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        tr.innerHTML = `
+          <td>${item.name}</td>
+          <td>${new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(item.price)}</td>
+          <td>
+            <button class="btn btn--ghost" data-act="dec" data-idx="${idx}">−</button>
+            <span style="display:inline-block;width:36px;text-align:center;">${item.qty}</span>
+            <button class="btn btn--ghost" data-act="inc" data-idx="${idx}">+</button>
+          </td>
+          <td>${new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(subtotal)}</td>
+          <td><button class="btn btn--primary" data-act="del" data-idx="${idx}">Quitar</button></td>`;
+        tbody.appendChild(tr);
+      });
+      document.getElementById('cartTotal').textContent = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(total);
+
+      tbody.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-idx'));
+          const act = btn.getAttribute('data-act');
+          const cart = getCartItems();
+          if (act === 'inc') cart[idx].qty += 1;
+          if (act === 'dec') cart[idx].qty = Math.max(1, cart[idx].qty - 1);
+          if (act === 'del') cart.splice(idx, 1);
+          saveCartItems(cart);
+          renderCart();
+          updateCartBadge();
+        });
+      });
+    }
+
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      document.getElementById('checkoutBox').style.display = '';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+
+    document.getElementById('confirmBtn').addEventListener('click', () => {
+      const cart = getCartItems();
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const pay = document.getElementById('paymethod').value;
+      const del = document.getElementById('delivery').value;
+      const addr = document.getElementById('address').value || 'N/D';
+      const email = document.getElementById('email').value || 'N/D';
+      const resumen = cart.map(i => `${i.qty}× ${i.name} (${i.price})`).join(', ');
+      const text = `Pedido: ${resumen}. Total: ${new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(total)}. Pago: ${pay}. Entrega: ${del}. Dirección: ${addr}. Email: ${email}.`;
+      const url = 'https://wa.me/527226128347?text=' + encodeURIComponent(text);
+      window.open(url, '_blank');
+    });
+
+    document.getElementById('payStripeBtn').addEventListener('click', checkoutWithStripe);
+    renderCart();
+  </script>
+</body>
+</html>

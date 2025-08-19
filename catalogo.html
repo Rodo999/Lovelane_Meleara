@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo — Lovelane Meleara</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand"><img class="brand__img" src="imagenes/logo.png" alt="Lovelane Meleara" /><span>Lovelane Meleara</span></a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="pagos.html">Pagos</a>
+        <a href="contacto.html">Ubicación y Contacto</a>
+        <a href="blog.html">Blog</a>
+        <a href="carrito.html" class="btn btn--light">Carrito <span id="cart-badge" class="nav__badge"></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title">Catálogo de Productos</h1>
+        <p class="section-subtitle">Florería, Lámparas y Recuerdos</p>
+        <hr class="hr-accent" />
+
+        <div class="chips mb-24">
+          <a class="chip chip--accent" href="#flores">Florería</a>
+          <a class="chip" href="#lamparas">Lámparas y Recuerdos</a>
+          <a class="chip" href="#paquetes">Paquetes</a>
+        </div>
+
+        <h2 id="flores" class="section-title">Florería</h2>
+        <div id="cat-flores" class="product-grid mb-32"></div>
+
+        <h3 class="section-subtitle">Por ocasión</h3>
+        <div class="chips mb-32">
+          <span class="chip">Cumpleaños</span>
+          <span class="chip">Bodas</span>
+          <span class="chip">Aniversarios</span>
+          <span class="chip">Condolencias</span>
+        </div>
+
+        <h2 id="lamparas" class="section-title">Lámparas y Recuerdos</h2>
+        <div id="cat-lamparas" class="product-grid mb-32"></div>
+
+        <h2 id="paquetes" class="section-title">Paquetes Especiales</h2>
+        <div id="cat-paquetes" class="product-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand"><span class="footer__logo"></span><div><strong>Lovelane Meleara</strong><p class="m-0">Detalles con flores y luz</p></div></div>
+        <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="cotizacion.html">Cotización</a></li>
+          <li><a href="pagos.html">Métodos de Pago</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto rápido</h4>
+        <p class="m-0">WhatsApp: <a href="https://wa.me/521234567890" target="_blank" rel="noopener">+52 123 456 7890</a></p>
+        <p class="m-0">Correo: <a href="mailto:hola@lovelanemeleara.com">hola@lovelanemeleara.com</a></p>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/catalog.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

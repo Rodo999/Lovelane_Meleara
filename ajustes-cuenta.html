@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajustes de Cuenta — Lovelane Meleara</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand"><img class="brand__img" src="imagenes/logo.png" alt="Lovelane Meleara" /><span>Lovelane Meleara</span></a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="cotizacion.html">Cotización</a>
+        <a href="carrito.html">Carrito</a>
+        <a href="cuenta.html" class="btn btn--light">Cuenta</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title">Ajustes de Cuenta</h1>
+        <p class="section-subtitle">Gestiona tu perfil, contraseña y eliminación de cuenta</p>
+        <hr class="hr-accent" />
+
+        <div id="noSession" class="alert" style="display:none">No hay sesión activa. <a href="cuenta.html">Inicia sesión</a> para continuar.</div>
+
+        <div id="settings" style="display:none">
+          <div class="grid grid--2">
+            <div class="estimator">
+              <h3 class="m-0">Perfil</h3>
+              <form class="form" id="profileForm">
+                <input class="input" name="name" placeholder="Nombre" />
+                <input class="input" name="phone" placeholder="Teléfono" />
+                <p class="help m-0">Email: <strong id="emailReadonly"></strong></p>
+                <button class="btn btn--gold" type="submit">Guardar cambios</button>
+              </form>
+            </div>
+
+            <div class="estimator">
+              <h3 class="m-0">Cambiar contraseña</h3>
+              <form class="form" id="passwordForm">
+                <input class="input" name="currentPassword" type="password" placeholder="Contraseña actual" required />
+                <input class="input" name="newPassword" type="password" placeholder="Nueva contraseña" required />
+                <button class="btn btn--primary" type="submit">Actualizar contraseña</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="mt-24 estimator">
+            <h3 class="m-0">Cerrar sesión</h3>
+            <button id="logoutBtn" class="btn btn--ghost">Cerrar sesión</button>
+          </div>
+
+          <div class="mt-24 estimator">
+            <h3 class="m-0">Eliminar cuenta</h3>
+            <button id="deleteBtn" class="btn btn--ghost">Eliminar definitivamente</button>
+            <p class="help">Acción irreversible. Se eliminará la información almacenada de tu cuenta en este dispositivo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand"><span class="footer__logo"></span><div><strong>Lovelane Meleara</strong><p class="m-0">Detalles con flores y luz</p></div></div>
+        <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h4>Contacto rápido</h4>
+        <p class="m-0">WhatsApp: <a href="https://wa.me/527226128347" target="_blank" rel="noopener">+52 722 612 8347</a></p>
+        <p class="m-0">Correo: <a href="mailto:hola@lovelanemeleara.com">hola@lovelanemeleara.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/auth.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const noSession = document.getElementById('noSession');
+    const settings = document.getElementById('settings');
+
+    const profileForm = document.getElementById('profileForm');
+    const passwordForm = document.getElementById('passwordForm');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const emailReadonly = document.getElementById('emailReadonly');
+
+    function toast(msg){ alert(msg); }
+
+    function guardSession(){
+      const u = Auth.getCurrentUser();
+      if (!u) {
+        noSession.style.display = '';
+        settings.style.display = 'none';
+        return false;
+      }
+      noSession.style.display = 'none';
+      settings.style.display = '';
+      profileForm.name.value = u.name || '';
+      profileForm.phone.value = u.phone || '';
+      emailReadonly.textContent = u.email;
+      return true;
+    }
+
+    profileForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!guardSession()) return;
+      try {
+        const data = Object.fromEntries(new FormData(profileForm).entries());
+        Auth.updateProfile(data);
+        toast('Perfil actualizado y almacenado');
+      } catch (err) { toast(err.message); }
+    });
+
+    passwordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!guardSession()) return;
+      try {
+        const data = Object.fromEntries(new FormData(passwordForm).entries());
+        await Auth.changePassword(data);
+        passwordForm.reset();
+        toast('Contraseña actualizada y almacenada');
+      } catch (err) { toast(err.message); }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      Auth.logout();
+      toast('Sesión cerrada');
+      window.location.href = 'cuenta.html';
+    });
+
+    deleteBtn.addEventListener('click', () => {
+      if (!confirm('¿Seguro que deseas eliminar tu cuenta? Esta acción es irreversible.')) return;
+      try {
+        Auth.deleteAccount();
+        toast('Cuenta eliminada');
+        window.location.href = 'cuenta.html';
+      } catch (err) { toast(err.message); }
+    });
+
+    guardSession();
+  </script>
+</body>
+</html>
