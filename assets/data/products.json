@@ -18,7 +18,7 @@
       "desc": "12 rosas + girasol",
       "price": 350,
       "category": "flores",
-      "image": "https://images.unsplash.com/photo-1529634850-1084f7a04f0c?q=80&w=1400&auto=format&fit=crop",
+      "image": "imagenes/ramo_basico.jpeg",
       "badge": null,
       "featured": true
     },
