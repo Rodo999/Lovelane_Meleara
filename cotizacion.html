@@ -67,6 +67,9 @@
                 <label class="label">Cantidad</label>
                 <input class="input cf-qty" type="number" min="1" step="1" value="1" />
               </div>
+              <div>
+                <button type="button" class="btn btn--ghost cf-remove">Eliminar</button>
+              </div>
             </div>
             <div class="chips mb-16">
               <label class="chip"><input type="checkbox" class="cf-extra" value="40" /> Moño decorativo (+$40)</label>
@@ -230,6 +233,9 @@
             <label class="label">Cantidad</label>
             <input class="input cf-qty" type="number" min="1" step="1" value="1" />
           </div>
+          <div>
+            <button type="button" class="btn btn--ghost cf-remove">Eliminar</button>
+          </div>
         </div>
         <div class="chips mb-16">
           <label class="chip"><input type="checkbox" class="cf-extra" value="40" /> Moño decorativo (+$40)</label>
@@ -240,6 +246,18 @@
       nodes.forEach(n => cfContainer.appendChild(n));
       bindRowEvents(cfContainer.lastElementChild.previousElementSibling);
       bindRowEvents(cfContainer.lastElementChild);
+
+      // --- Bind para eliminar la fila personalizada ---
+      const customRow = cfContainer.lastElementChild.previousElementSibling;
+      const removeBtn = customRow.querySelector('.cf-remove');
+      if(removeBtn) {
+        removeBtn.addEventListener('click', () => {
+          const chips = customRow.nextElementSibling && customRow.nextElementSibling.matches('.chips') ? customRow.nextElementSibling : null;
+          customRow.remove();
+          if (chips) chips.remove();
+          calcTotals();
+        });
+      }
     }
 
     function calcCustomSection(){
@@ -335,6 +353,19 @@
     bindRowEvents(cfContainer.querySelector('.custom-row'));
     const firstChips = cfContainer.querySelector('.chips');
     if (firstChips) firstChips.querySelectorAll('input').forEach(i=> i.addEventListener('change', calcTotals));
+
+    // Bind para el botón eliminar de la primera fila personalizada
+    const firstCustomRow = cfContainer.querySelector('.custom-row');
+    const firstRemoveBtn = firstCustomRow.querySelector('.cf-remove');
+    if(firstRemoveBtn) {
+      firstRemoveBtn.addEventListener('click', () => {
+        const chips = firstCustomRow.nextElementSibling && firstCustomRow.nextElementSibling.matches('.chips') ? firstCustomRow.nextElementSibling : null;
+        firstCustomRow.remove();
+        if (chips) chips.remove();
+        calcTotals();
+      });
+    }
+
     catalogRows.addEventListener('change', calcTotals);
     catalogRows.addEventListener('input', calcTotals);
     discountEl.addEventListener('input', calcTotals);
