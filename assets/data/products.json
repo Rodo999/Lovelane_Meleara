@@ -14,7 +14,7 @@
     },
     {
       "id": "ramo-basico",
-      "name": "Ramo básico",
+      "name": "Ramo Clásico",
       "desc": "12 rosas + girasol",
       "price": 350,
       "category": "flores",
@@ -24,7 +24,7 @@
     },
     {
       "id": "ramo-premium",
-      "name": "Ramo premium",
+      "name": "Ramo Premium",
       "desc": "24 rosas + 2 girasoles + tarjeta personalizada",
       "price": 750,
       "category": "flores",
@@ -34,7 +34,7 @@
     },
     {
       "id": "arreglo-lujo",
-      "name": "Arreglo de lujo",
+      "name": "Arreglo de Lujo",
       "desc": "50 rosas + 6 girasoles + caja de lujo",
       "price": 1555,
       "category": "flores",
@@ -44,12 +44,12 @@
     },
     {
       "id": "lampara-tulipanes-infinitos",
-      "name": "Lámpara de tulipanes infinitos",
+      "name": "Lámpara de Tulipanes Infinitos",
       "desc": "Así como el amor que es infinito.",
       "price": 200,
       "category": "lamparas",
       "image": "imagenes/lampara_tulipanes_infinita.png",
-      "badge": null,
+      "badge": "Luz de Amor 💗",
       "featured": true
     },
     {
