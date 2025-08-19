@@ -78,8 +78,8 @@
       "desc": "Paquete de 50 rosas.",
       "price": 750,
       "category": "flores",
-      "image": "imagenes/rosas_50.jpeg",
-      "badge": null,
+      "image": "imagenes/rosas_50.png",
+      "badge": "Rosas 🌹",
       "featured": false
     },
     {
