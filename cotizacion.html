@@ -421,6 +421,48 @@
 
     // Calcular inicial
     calcTotals();
+
+    // Función para animar salida y luego eliminar un nodo
+function animateRowExit(row, alsoRemoveSiblingChips = false) {
+  row.classList.add('row-exit');
+  setTimeout(() => {
+    if (alsoRemoveSiblingChips) {
+      const chips = row.nextElementSibling && row.nextElementSibling.matches('.chips') ? row.nextElementSibling : null;
+      row.remove();
+      if (chips) chips.remove();
+    } else {
+      row.remove();
+    }
+    calcTotals();
+  }, 380); // Debe coincidir con la duración de fadeOutRow en el CSS (.38s)
+}
+
+// En createCustomRow:
+const removeBtn = customRow.querySelector('.cf-remove');
+if(removeBtn) {
+  removeBtn.addEventListener('click', () => {
+    animateRowExit(customRow, true);
+  });
+}
+
+// Para la fila inicial:
+if(firstRemoveBtn) {
+  firstRemoveBtn.addEventListener('click', () => {
+    animateRowExit(firstCustomRow, true);
+  });
+}
+
+// Para cat-row (catálogo):
+function bindCatalogRow(row){
+  const sel = row.querySelector('.cat-item');
+  const qty = row.querySelector('.cat-qty');
+  const rm = row.querySelector('.cat-remove');
+  sel.addEventListener('change', calcTotals);
+  qty.addEventListener('input', calcTotals);
+  rm.addEventListener('click', () => {
+    animateRowExit(row);
+  });
+}
   </script>
 </body>
 </html>
