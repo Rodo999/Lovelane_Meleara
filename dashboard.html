@@ -140,10 +140,17 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    // Config Supabase (usar anon key pública)
-    const SB_URL = 'https://ebijsnhtzwjhhknzlwtk.supabase.co';
-    const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImViaWpzbmh0endqaGhrbnpsd3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzYzMjEsImV4cCI6MjA3MTIxMjMyMX0.xB18NdhNFmLmKqHwZrnZTjQOXzJcV4OF-KjhekP80RU';
-    const supa = window.supabase.createClient(SB_URL, SB_ANON);
+    // Cargar config pública desde función serverless (evita secretos en repo)
+    let supa;
+    async function initSupabase(){
+      const res = await fetch('/.netlify/functions/public-env');
+      if (!res.ok) { alert('No se pudo cargar configuración pública'); return; }
+      const { supabaseUrl, supabaseAnonKey } = await res.json();
+      if (!supabaseUrl || !supabaseAnonKey) { alert('Faltan variables públicas en Netlify'); return; }
+      supa = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+      await refreshAuth();
+      supa.auth.onAuthStateChange((_e,_s)=>{ refreshAuth(); });
+    }
 
     let offset = 0;
     let autoTimer = null;
@@ -384,10 +391,7 @@
     document.getElementById('autoRefresh').addEventListener('change', (e)=>{ if(e.target.checked){ autoTimer=setInterval(loadOrders,30000);} else {clearInterval(autoTimer); autoTimer=null;} });
 
     // Init
-    (async ()=>{
-      await refreshAuth();
-      supa.auth.onAuthStateChange((_e,_s)=>{ refreshAuth(); });
-    })();
+    (async ()=>{ await initSupabase(); })();
   </script>
 </body>
 </html>
