@@ -188,9 +188,10 @@
     document.getElementById('btnSignUp').addEventListener('click', async ()=>{
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value.trim();
-      const { error } = await supa.auth.signUp({ email, password });
+      const redirectTo = window.location.origin + '/dashboard.html';
+      const { error } = await supa.auth.signUp({ email, password, options: { emailRedirectTo: redirectTo } });
       if (error) return alert(error.message);
-      alert('Cuenta creada. Verifica tu correo si es necesario y vuelve a iniciar sesión.');
+      alert('Cuenta creada. Revisa tu correo y usa el enlace de verificación. Serás redirigido a: '+redirectTo);
     });
     document.getElementById('btnSignOut').addEventListener('click', async ()=>{
       await supa.auth.signOut();
