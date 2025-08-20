@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog e Inspiración — Lovelane Meleara</title>
+  <title>Guía — Cómo elegir el ramo perfecto | Lovelane Meleara</title>
   <link rel="stylesheet" href="../assets/css/styles.css" />
 </head>
 <body>
@@ -23,7 +23,7 @@
         <a href="cotizacion.html">Cotización</a>
         <a href="pagos.html">Pagos</a>
         <a href="contacto.html">Ubicación y Contacto</a>
-        <a href="blog.html">Blog</a>
+        <a href="blog.html" class="active">Blog</a>
         <a href="carrito.html" class="btn btn--light">Carrito <span id="cart-badge" class="nav__badge"></span></a>
       </nav>
     </div>
@@ -33,16 +33,56 @@
     <section class="section">
       <div class="container">
         <h1 class="section-title">Cómo elegir el ramo perfecto</h1>
-        <p class="section-subtitle">Guía rápida por ocasión: cumpleaños, aniversario o agradecimiento.</p>
+        <p class="section-subtitle">Una guía completa para cada ocasión</p>
         <hr class="hr-accent" />
-          <article class="card">
-            <div class="card__media"><img class="img1" src="../imagenes/ramo_perfecto.png" alt="Ramo perfecto" /></div>
-            <div class="card__body">
-              <h3 class="card__title"></h3>
-              <p class="card__desc"></p>
-              <a class="btn btn--ghost" href="#">Leer</a>
-            </div>
-          </article>
+
+        <article class="card">
+          <div class="card__media">
+            <img class="img1" src="../imagenes/ramo_perfecto.png" alt="Ramo perfecto" />
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">El arte de regalar flores</h3>
+            <p class="card__desc">
+              Regalar flores es una tradición que comunica sentimientos de una manera única. 
+              Pero, ¿cómo elegir el ramo perfecto? La clave está en el <strong>significado de cada flor</strong>, 
+              en el <strong>diseño</strong> y en la <strong>ocasión</strong>.
+            </p>
+
+            <h4>🌸 Según la ocasión</h4>
+            <ul>
+              <li><strong>Cumpleaños:</strong> ramos coloridos con girasoles, gerberas o tulipanes, que transmiten alegría y vitalidad.</li>
+              <li><strong>Aniversarios:</strong> rosas rojas o combinaciones elegantes como lirios con follaje verde, que simbolizan amor y compromiso.</li>
+              <li><strong>Agradecimientos:</strong> flores suaves como margaritas o lirios blancos, que expresan gratitud y sinceridad.</li>
+              <li><strong>Eventos especiales:</strong> para bodas o celebraciones, opta por diseños sofisticados como ramos en cascada o en caja.</li>
+            </ul>
+
+            <h4>🎨 Diseños más populares</h4>
+            <p>El estilo del ramo también marca la diferencia:</p>
+            <ul>
+              <li><strong>Ramo redondo:</strong> tradicional y equilibrado, ideal para ocasiones formales.</li>
+              <li><strong>Silvestre:</strong> mezcla de flores variadas con un aire natural y fresco.</li>
+              <li><strong>Minimalista:</strong> pocos elementos pero con un diseño limpio y moderno.</li>
+              <li><strong>En caja o hatbox:</strong> una tendencia moderna que aporta elegancia y practicidad.</li>
+            </ul>
+
+            <h4>🌹 El significado de las flores</h4>
+            <ul>
+              <li>Rosas rojas: amor apasionado.</li>
+              <li>Girasoles: energía y alegría.</li>
+              <li>Tulipanes: elegancia y admiración.</li>
+              <li>Lirios: respeto y pureza.</li>
+              <li>Orquídeas: lujo y sofisticación.</li>
+            </ul>
+
+            <h4>✨ Consejos finales</h4>
+            <p>
+              - Asegúrate de que el ramo refleje la personalidad de la persona que lo recibe.  
+              - Combina colores cálidos y fríos para darle contraste.  
+              - Usa envoltorios sencillos (papel kraft o cajas negras) para resaltar la belleza de las flores.  
+              - Y lo más importante: elige con el corazón, porque el ramo perfecto es el que transmite tu intención.
+            </p>
+          </div>
+        </article>
       </div>
     </section>
   </main>
@@ -50,7 +90,13 @@
   <footer class="footer">
     <div class="container footer__grid">
       <div>
-        <div class="footer__brand"><span class="footer__logo"></span><div><strong>Lovelane Meleara</strong><p class="m-0">Detalles con flores y luz</p></div></div>
+        <div class="footer__brand">
+          <span class="footer__logo"></span>
+          <div>
+            <strong>Lovelane Meleara</strong>
+            <p class="m-0">Detalles con flores y luz</p>
+          </div>
+        </div>
         <p class="footer__copy">© <span id="year"></span> Lovelane Meleara. Todos los derechos reservados.</p>
       </div>
       <div>
@@ -69,10 +115,8 @@
       </div>
     </div>
   </footer>
+  
   <script src="../assets/js/app.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
-
-
-
