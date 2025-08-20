@@ -18,16 +18,34 @@
     <section class="section">
       <div class="container">
         <h1 class="section-title">Dashboard de Pedidos</h1>
-        <p class="section-subtitle">Solo administradores. Protegido por token.</p>
+        <p class="section-subtitle">Administradores con Supabase Auth (RLS)</p>
         <hr class="hr-accent" />
 
+        <!-- Autenticación Supabase -->
         <div class="estimator">
+          <h3 class="m-0">Autenticación</h3>
           <div class="form-row">
             <div>
-              <label class="label" for="token">Token de administrador</label>
-              <input class="input" id="token" placeholder="Ingresa tu token" />
-              <p class="help">Configura ADMIN_DASH_TOKEN en Netlify y pégalo aquí.</p>
+              <label class="label">Email</label>
+              <input class="input" id="authEmail" type="email" placeholder="admin@dominio.com" />
             </div>
+            <div>
+              <label class="label">Contraseña</label>
+              <input class="input" id="authPassword" type="password" placeholder="••••••••" />
+            </div>
+          </div>
+          <div class="flex">
+            <button class="btn btn--primary" id="btnSignIn">Iniciar sesión</button>
+            <button class="btn btn--ghost" id="btnSignUp">Crear cuenta</button>
+            <button class="btn btn--gold" id="btnSignOut">Cerrar sesión</button>
+          </div>
+          <p class="help m-0" id="authInfo">Sin sesión</p>
+          <p class="help m-0" id="adminInfo">Admin: N/D</p>
+        </div>
+
+        <!-- Filtros y acciones -->
+        <div class="estimator mt-24">
+          <div class="form-row">
             <div>
               <label class="label">Filtros</label>
               <div class="flex flex-wrap">
@@ -62,7 +80,8 @@
           </div>
         </div>
 
-        <div class="estimator mt-24">
+        <!-- Gestión de administradores -->
+        <div class="estimator mt-24" id="adminsBox" style="display:none;">
           <h3 class="m-0">Gestión de administradores</h3>
           <div class="form-row">
             <div>
@@ -78,6 +97,7 @@
           </div>
         </div>
 
+        <!-- Tabla de pedidos -->
         <div class="mt-24" style="overflow-x:auto;">
           <div class="alert mb-12" id="summary" style="display:none"></div>
           <table class="table">
@@ -113,103 +133,91 @@
 
   <footer class="footer"></footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    function money(v, c){ try{ return new Intl.NumberFormat('es-MX', { style: 'currency', currency: (c||'MXN').toUpperCase() }).format((v||0)/100); }catch{ return v; } }
-    function toISO(dt){ if(!dt) return ''; const d = new Date(dt); return d.toISOString(); }
-
-    async function listAdmins(){
-      const token = document.getElementById('token').value.trim();
-      const res = await fetch('/.netlify/functions/admins', { headers: { 'x-admin-token': token } });
-      const data = await res.json();
-      const wrap = document.getElementById('adminsList');
-      wrap.innerHTML = '';
-      if (!res.ok) { wrap.textContent = 'Error al cargar admins'; return; }
-      data.forEach(a => {
-        const chip = document.createElement('span');
-        chip.className = 'chip';
-        chip.textContent = a.email;
-        const del = document.createElement('button');
-        del.className = 'btn btn--ghost';
-        del.textContent = 'Eliminar';
-        del.style.marginLeft = '8px';
-        del.addEventListener('click', async ()=>{
-          if (!confirm('¿Eliminar admin '+a.email+'?')) return;
-          const r = await fetch('/.netlify/functions/admins?email='+encodeURIComponent(a.email), { method: 'DELETE', headers: { 'x-admin-token': token } });
-          if (!r.ok) { alert('No se pudo eliminar'); return; }
-          listAdmins();
-        });
-        const holder = document.createElement('span');
-        holder.appendChild(chip);
-        holder.appendChild(del);
-        wrap.appendChild(holder);
-      });
-    }
-
-    async function addAdmin(){
-      const token = document.getElementById('token').value.trim();
-      const email = document.getElementById('newAdminEmail').value.trim();
-      if (!email) { alert('Ingresa un email'); return; }
-      const res = await fetch('/.netlify/functions/admins', {
-        method: 'POST', headers: { 'x-admin-token': token, 'Content-Type': 'application/json' }, body: JSON.stringify({ email })
-      });
-      if (!res.ok) { const t = await res.text(); alert('Error: '+t); return; }
-      document.getElementById('newAdminEmail').value = '';
-      listAdmins();
-    }
+    // Config Supabase (usar anon key pública)
+    const SB_URL = 'https://ebijsnhtzwjhhknzlwtk.supabase.co';
+    const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImViaWpzbmh0endqaGhrbnpsd3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MzYzMjEsImV4cCI6MjA3MTIxMjMyMX0.xB18NdhNFmLmKqHwZrnZTjQOXzJcV4OF-KjhekP80RU';
+    const supa = window.supabase.createClient(SB_URL, SB_ANON);
 
     let offset = 0;
     let autoTimer = null;
+    let currentUser = null;
+    let isAdmin = false;
 
-    function buildQS(){
-      const qs = new URLSearchParams();
-      const fSearch = document.getElementById('fSearch').value.trim();
-      const fEmail = document.getElementById('fEmail').value.trim();
-      const fStatus = document.getElementById('fStatus').value.trim();
-      const fStart = document.getElementById('fStart').value;
-      const fEnd = document.getElementById('fEnd').value;
-      const fLimit = Math.min(200, Math.max(1, Number(document.getElementById('fLimit').value || 50)));
-      const orderBy = document.getElementById('fOrderBy').value;
-      const orderDir = document.getElementById('fOrderDir').value;
-      qs.set('limit', String(fLimit));
-      qs.set('offset', String(offset));
-      qs.set('order_by', orderBy);
-      qs.set('order_dir', orderDir);
-      if (fEmail) qs.set('email', fEmail);
-      if (fSearch) qs.set('search', fSearch);
-      if (fStatus) qs.set('status', fStatus);
-      if (fStart) qs.set('start', toISO(fStart));
-      if (fEnd) qs.set('end', toISO(fEnd));
-      return qs;
+    function money(v, c){ try{ return new Intl.NumberFormat('es-MX', { style: 'currency', currency: (c||'MXN').toUpperCase() }).format((v||0)/100); }catch{ return v; } }
+    function toISO(dt){ if(!dt) return ''; const d = new Date(dt); return d.toISOString(); }
+
+    async function refreshAuth() {
+      const { data: { user } } = await supa.auth.getUser();
+      currentUser = user;
+      document.getElementById('authInfo').textContent = user ? `Sesión: ${user.email}` : 'Sin sesión';
+      if (!user) {
+        isAdmin = false;
+        document.getElementById('adminInfo').textContent = 'Admin: N/D';
+        document.getElementById('adminsBox').style.display = 'none';
+        return;
+      }
+      // Verificar admin por RLS
+      const { data, error } = await supa.from('admins').select('email').eq('email', user.email).limit(1);
+      isAdmin = !!(data && data.length);
+      document.getElementById('adminInfo').textContent = `Admin: ${isAdmin ? 'Sí' : 'No'}`;
+      document.getElementById('adminsBox').style.display = isAdmin ? '' : 'none';
     }
 
-    function toCSV(rows){
-      const headers = ['created_at','session_id','customer_email','status','amount_total','currency'];
-      const lines = [headers.join(',')];
-      rows.forEach(r=>{
-        lines.push([
-          new Date(r.created_at).toISOString(),
-          r.session_id,
-          r.customer_email||'',
-          r.status||'',
-          (r.amount_total||0)/100,
-          (r.currency||'').toUpperCase(),
-        ].map(v=>`"${String(v).replaceAll('"','""')}"`).join(','));
-      });
-      return lines.join('\n');
+    // Auth handlers
+    document.getElementById('btnSignIn').addEventListener('click', async ()=>{
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value.trim();
+      const { error } = await supa.auth.signInWithPassword({ email, password });
+      if (error) return alert(error.message);
+      await refreshAuth();
+    });
+    document.getElementById('btnSignUp').addEventListener('click', async ()=>{
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value.trim();
+      const { error } = await supa.auth.signUp({ email, password });
+      if (error) return alert(error.message);
+      alert('Cuenta creada. Verifica tu correo si es necesario y vuelve a iniciar sesión.');
+    });
+    document.getElementById('btnSignOut').addEventListener('click', async ()=>{
+      await supa.auth.signOut();
+      await refreshAuth();
+    });
+
+    function buildFilters(){
+      return {
+        search: document.getElementById('fSearch').value.trim(),
+        email: document.getElementById('fEmail').value.trim(),
+        status: document.getElementById('fStatus').value.trim(),
+        start: document.getElementById('fStart').value,
+        end: document.getElementById('fEnd').value,
+        limit: Math.min(200, Math.max(1, Number(document.getElementById('fLimit').value || 50))),
+        orderBy: document.getElementById('fOrderBy').value,
+        orderDir: document.getElementById('fOrderDir').value
+      };
     }
 
     async function loadOrders(){
-      const token = document.getElementById('token').value.trim();
-      const qs = buildQS();
-      const res = await fetch('/.netlify/functions/list-orders?'+qs.toString(), { headers: { 'x-admin-token': token } });
-      const data = await res.json();
-      if (!res.ok) { alert('Error: '+(data.error || JSON.stringify(data))); return; }
+      if (!currentUser) { alert('Inicia sesión'); return; }
+      // Construir query con RLS (admins ven todo; clientes solo los suyos)
+      const f = buildFilters();
+      let q = supa.from('orders').select('*').order(f.orderBy, { ascending: f.orderDir === 'asc' }).range(offset, offset + f.limit - 1);
+      if (f.email) q = q.eq('customer_email', f.email);
+      if (f.search) q = q.ilike('customer_email', `%${f.search}%`);
+      if (f.status) q = q.eq('status', f.status);
+      if (f.start) q = q.gte('created_at', toISO(f.start));
+      if (f.end) q = q.lte('created_at', toISO(f.end));
+
+      const { data, error } = await q;
+      if (error) { alert(error.message); return; }
+
       const tbody = document.getElementById('rows');
       const summary = document.getElementById('summary');
       tbody.innerHTML = '';
       let total = 0;
-      data.forEach(r => {
+      (data||[]).forEach(r => {
         total += (r.amount_total||0);
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -223,12 +231,14 @@
           <td>
             <div class="flex">
               <button class="btn btn--ghost" data-act="view" data-id="${r.session_id}">Ver</button>
-              <button class="btn btn--primary" data-act="mark-paid" data-id="${r.session_id}">Marcar pagado</button>
-              <button class="btn btn--gold" data-act="add-note" data-id="${r.session_id}">Añadir nota</button>
+              ${isAdmin ? `<button class="btn btn--primary" data-act="mark-paid" data-id="${r.session_id}">Marcar pagado</button>`:''}
+              ${isAdmin ? `<button class="btn btn--gold" data-act="add-note" data-id="${r.session_id}">Añadir nota</button>`:''}
             </div>
           </td>`;
         tbody.appendChild(tr);
       });
+      summary.style.display = '';
+      summary.textContent = `Registros: ${(data||[]).length} | Total: ${money(total, 'MXN')}`;
 
       // Acciones
       tbody.querySelectorAll('button[data-act]').forEach(btn => {
@@ -236,73 +246,109 @@
         const id = btn.getAttribute('data-id');
         btn.addEventListener('click', async ()=>{
           if (act === 'view') {
-            document.getElementById('modalBody').textContent = JSON.stringify(data.find(x=>x.session_id===id)||{}, null, 2);
+            document.getElementById('modalBody').textContent = JSON.stringify((data||[]).find(x=>x.session_id===id)||{}, null, 2);
             document.getElementById('modal').style.display = '';
           }
           if (act === 'mark-paid') {
-            await updateOrder(id, { status: 'paid' });
+            await updateOrderAuth(id, { status: 'paid' });
           }
           if (act === 'add-note') {
             const note = prompt('Escribe una nota para este pedido:');
-            if (note) await updateOrder(id, { note });
+            if (note) await updateOrderAuth(id, { note });
           }
         });
       });
-      summary.style.display = '';
-      summary.textContent = `Registros: ${data.length} | Total: ${money(total, 'MXN')}`;
     }
 
-    document.getElementById('btnLoad').addEventListener('click', ()=>{ offset=0; loadOrders(); listAdmins(); });
-    document.getElementById('btnReloadAdmins').addEventListener('click', listAdmins);
-    document.getElementById('btnAddAdmin').addEventListener('click', addAdmin);
-    document.getElementById('btnNext').addEventListener('click', ()=>{ offset += Math.min(200, Math.max(1, Number(document.getElementById('fLimit').value||50))); loadOrders(); });
-    document.getElementById('btnPrev').addEventListener('click', ()=>{ offset = Math.max(0, offset - Math.min(200, Math.max(1, Number(document.getElementById('fLimit').value||50)))); loadOrders(); });
+    // Exportaciones
     document.getElementById('btnJSON').addEventListener('click', async ()=>{
-      const token = document.getElementById('token').value.trim();
-      const qs = buildQS();
-      const res = await fetch('/.netlify/functions/list-orders?'+qs.toString(), { headers: { 'x-admin-token': token } });
-      const data = await res.json();
-      if (!res.ok) { alert('Error: '+(data.error || JSON.stringify(data))); return; }
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'pedidos.json';
-      a.click();
+      const f = buildFilters();
+      let q = supa.from('orders').select('*').order(f.orderBy, { ascending: f.orderDir === 'asc' }).range(offset, offset + f.limit - 1);
+      if (f.email) q = q.eq('customer_email', f.email);
+      if (f.search) q = q.ilike('customer_email', `%${f.search}%`);
+      if (f.status) q = q.eq('status', f.status);
+      if (f.start) q = q.gte('created_at', toISO(f.start));
+      if (f.end) q = q.lte('created_at', toISO(f.end));
+      const { data, error } = await q;
+      if (error) return alert(error.message);
+      const blob = new Blob([JSON.stringify(data||[], null, 2)], { type: 'application/json' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pedidos.json'; a.click();
+    });
+    document.getElementById('btnCSV').addEventListener('click', async ()=>{
+      const f = buildFilters();
+      let q = supa.from('orders').select('*').order(f.orderBy, { ascending: f.orderDir === 'asc' }).range(offset, offset + f.limit - 1);
+      if (f.email) q = q.eq('customer_email', f.email);
+      if (f.search) q = q.ilike('customer_email', `%${f.search}%`);
+      if (f.status) q = q.eq('status', f.status);
+      if (f.start) q = q.gte('created_at', toISO(f.start));
+      if (f.end) q = q.lte('created_at', toISO(f.end));
+      const { data, error } = await q;
+      if (error) return alert(error.message);
+      const headers = ['created_at','session_id','customer_email','status','amount_total','currency'];
+      const lines = [headers.join(',')];
+      (data||[]).forEach(r=>{
+        lines.push([
+          new Date(r.created_at).toISOString(), r.session_id, r.customer_email||'', r.status||'', (r.amount_total||0)/100, (r.currency||'').toUpperCase()
+        ].map(v=>`"${String(v).replaceAll('"','""')}"`).join(','));
+      });
+      const csv = lines.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pedidos.csv'; a.click();
     });
 
-    document.getElementById('btnCSV').addEventListener('click', async ()=>{
-      const token = document.getElementById('token').value.trim();
-      const qs = buildQS();
-      const res = await fetch('/.netlify/functions/list-orders?'+qs.toString(), { headers: { 'x-admin-token': token } });
+    // Admins via endpoint con Auth
+    async function listAdmins(){
+      const sess = await supa.auth.getSession();
+      const token = sess.data.session?.access_token;
+      if (!token) return alert('Sin sesión');
+      const res = await fetch('/.netlify/functions/admins-auth', { headers: { 'Authorization': `Bearer ${token}` } });
       const data = await res.json();
-      if (!res.ok) { alert('Error: '+(data.error || JSON.stringify(data))); return; }
-      const csv = toCSV(data);
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'pedidos.csv';
-      a.click();
-    });
-  async function updateOrder(session_id, patch){
-      const token = document.getElementById('token').value.trim();
-      const res = await fetch('/.netlify/functions/update-order', {
-        method: 'PATCH', headers: { 'x-admin-token': token, 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id, ...patch })
+      const wrap = document.getElementById('adminsList'); wrap.innerHTML = '';
+      if (!res.ok) { wrap.textContent = 'Error al cargar admins'; return; }
+      data.forEach(a => {
+        const chip = document.createElement('span'); chip.className = 'chip'; chip.textContent = a.email;
+        const del = document.createElement('button'); del.className = 'btn btn--ghost'; del.textContent = 'Eliminar'; del.style.marginLeft = '8px';
+        del.addEventListener('click', async ()=>{ if (!confirm('¿Eliminar admin '+a.email+'?')) return; await deleteAdmin(a.email); });
+        const holder = document.createElement('span'); holder.appendChild(chip); holder.appendChild(del); wrap.appendChild(holder);
       });
-      if (!res.ok) { const t = await res.text(); alert('Error: '+t); return; }
+    }
+    async function addAdmin(){
+      const email = document.getElementById('newAdminEmail').value.trim(); if (!email) return alert('Ingresa un email');
+      const sess = await supa.auth.getSession(); const token = sess.data.session?.access_token; if (!token) return alert('Sin sesión');
+      const res = await fetch('/.netlify/functions/admins-auth', { method:'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+      if (!res.ok) { const t = await res.text(); return alert('Error: '+t); }
+      document.getElementById('newAdminEmail').value = ''; listAdmins();
+    }
+    async function deleteAdmin(email){
+      const sess = await supa.auth.getSession(); const token = sess.data.session?.access_token; if (!token) return alert('Sin sesión');
+      const res = await fetch('/.netlify/functions/admins-auth?email='+encodeURIComponent(email), { method:'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+      if (!res.ok) { const t = await res.text(); return alert('Error: '+t); }
+      listAdmins();
+    }
+
+    async function updateOrderAuth(session_id, patch){
+      const sess = await supa.auth.getSession(); const token = sess.data.session?.access_token; if (!token) return alert('Sin sesión');
+      const res = await fetch('/.netlify/functions/update-order-auth', { method:'PATCH', headers:{ 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id, ...patch }) });
+      if (!res.ok) { const t = await res.text(); return alert('Error: '+t); }
       loadOrders();
     }
 
-    // Modal
+    // Eventos UI
+    document.getElementById('btnLoad').addEventListener('click', ()=>{ offset=0; loadOrders(); if(isAdmin) listAdmins(); });
+    document.getElementById('btnNext').addEventListener('click', ()=>{ const lim = buildFilters().limit; offset += lim; loadOrders(); });
+    document.getElementById('btnPrev').addEventListener('click', ()=>{ const lim = buildFilters().limit; offset = Math.max(0, offset - lim); loadOrders(); });
+    document.getElementById('btnCSV').addEventListener('click', ()=>{});
+    document.getElementById('btnJSON').addEventListener('click', ()=>{});
+    document.getElementById('btnAddAdmin').addEventListener('click', addAdmin);
+    document.getElementById('btnReloadAdmins').addEventListener('click', listAdmins);
     document.getElementById('modalClose').addEventListener('click', ()=>{ document.getElementById('modal').style.display='none'; });
+    document.getElementById('autoRefresh').addEventListener('change', (e)=>{ if(e.target.checked){ autoTimer=setInterval(loadOrders,30000);} else {clearInterval(autoTimer); autoTimer=null;} });
 
-    // Auto refresco
-    document.getElementById('autoRefresh').addEventListener('change', (e)=>{
-      if (e.target.checked) {
-        autoTimer = setInterval(loadOrders, 30000);
-      } else {
-        clearInterval(autoTimer); autoTimer = null;
-      }
-    });
+    // Init
+    (async ()=>{
+      await refreshAuth();
+      supa.auth.onAuthStateChange((_e,_s)=>{ refreshAuth(); });
+    })();
   </script>
 </body>
 </html>
