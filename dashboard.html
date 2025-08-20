@@ -74,6 +74,10 @@
                 <button class="btn btn--ghost" id="btnPrev">Anterior</button>
                 <button class="btn btn--gold" id="btnCSV">Exportar CSV</button>
                 <button class="btn btn--ghost" id="btnJSON">Exportar JSON</button>
+                <button class="btn btn--ghost" id="btnToday">Hoy</button>
+                <button class="btn btn--ghost" id="btnWeek">Esta semana</button>
+                <button class="btn btn--ghost" id="btnMonth">Este mes</button>
+                <button class="btn btn--ghost" id="btnClearDates">Limpiar fechas</button>
                 <label class="chip"><input type="checkbox" id="autoRefresh" /> Auto-refresco (30s)</label>
               </div>
             </div>
@@ -337,8 +341,43 @@
     document.getElementById('btnLoad').addEventListener('click', ()=>{ offset=0; loadOrders(); if(isAdmin) listAdmins(); });
     document.getElementById('btnNext').addEventListener('click', ()=>{ const lim = buildFilters().limit; offset += lim; loadOrders(); });
     document.getElementById('btnPrev').addEventListener('click', ()=>{ const lim = buildFilters().limit; offset = Math.max(0, offset - lim); loadOrders(); });
-    document.getElementById('btnCSV').addEventListener('click', ()=>{});
-    document.getElementById('btnJSON').addEventListener('click', ()=>{});
+    // Rango rápido
+    function fmtLocal(dt){
+      const pad = n => String(n).padStart(2,'0');
+      const y = dt.getFullYear(); const m = pad(dt.getMonth()+1); const d = pad(dt.getDate());
+      const h = pad(dt.getHours()); const mi = pad(dt.getMinutes());
+      return `${y}-${m}-${d}T${h}:${mi}`;
+    }
+    document.getElementById('btnToday').addEventListener('click', ()=>{
+      const now = new Date();
+      const start = new Date(now); start.setHours(0,0,0,0);
+      const end = new Date(now); end.setHours(23,59,59,999);
+      document.getElementById('fStart').value = fmtLocal(start);
+      document.getElementById('fEnd').value = fmtLocal(end);
+      offset=0; loadOrders();
+    });
+    document.getElementById('btnWeek').addEventListener('click', ()=>{
+      const now = new Date();
+      const day = now.getDay(); // 0=Domingo
+      const diffToMonday = (day === 0 ? -6 : 1 - day);
+      const start = new Date(now); start.setDate(now.getDate()+diffToMonday); start.setHours(0,0,0,0);
+      document.getElementById('fStart').value = fmtLocal(start);
+      document.getElementById('fEnd').value = fmtLocal(now);
+      offset=0; loadOrders();
+    });
+    document.getElementById('btnMonth').addEventListener('click', ()=>{
+      const now = new Date();
+      const start = new Date(now.getFullYear(), now.getMonth(), 1, 0,0,0,0);
+      document.getElementById('fStart').value = fmtLocal(start);
+      document.getElementById('fEnd').value = fmtLocal(new Date());
+      offset=0; loadOrders();
+    });
+    document.getElementById('btnClearDates').addEventListener('click', ()=>{
+      document.getElementById('fStart').value = '';
+      document.getElementById('fEnd').value = '';
+      offset=0; loadOrders();
+    });
+
     document.getElementById('btnAddAdmin').addEventListener('click', addAdmin);
     document.getElementById('btnReloadAdmins').addEventListener('click', listAdmins);
     document.getElementById('modalClose').addEventListener('click', ()=>{ document.getElementById('modal').style.display='none'; });
