@@ -93,13 +93,13 @@
       "featured": false
     },
     {
-      "id": "rosas-100",
-      "name": "100 Rosas",
-      "desc": "Paquete de 100 rosas.",
-      "price": 1000,
+      "id": "combo_doble",
+      "name": "Combo Doble: Amor y Luz",
+      "desc": "Lleva un ramo clásico + lámpara infinita.",
+      "price": 450,
       "category": "paquetes",
       "image": "imagenes/rosas_100.png",
-      "badge": "Verdadero Amor 💞",
+      "badge": "Rosas 🌹, Girasoles 🌻, Luz Infinita 🩷",
       "featured": false
     }
   ]
