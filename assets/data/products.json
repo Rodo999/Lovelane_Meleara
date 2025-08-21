@@ -91,6 +91,16 @@
       "image": "imagenes/rosas_100.png",
       "badge": "Verdadero Amor 💞",
       "featured": false
+    },
+    {
+      "id": "rosas-100",
+      "name": "100 Rosas",
+      "desc": "Paquete de 100 rosas.",
+      "price": 1000,
+      "category": "paquetes",
+      "image": "imagenes/rosas_100.png",
+      "badge": "Verdadero Amor 💞",
+      "featured": false
     }
   ]
 }
