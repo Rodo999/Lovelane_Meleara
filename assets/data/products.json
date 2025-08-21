@@ -98,8 +98,8 @@
       "desc": "Lleva un ramo clásico + lámpara infinita.",
       "price": 450,
       "category": "paquetes",
-      "image": "imagenes/rosas_100.png",
-      "badge": "Rosas 🌹, Girasoles 🌻, Luz Infinita 🩷",
+      "image": "imagenes/paquete_doble.png",
+      "badge": "Rosas 🌹 Girasoles 🌻 Luz Infinita 🩷",
       "featured": false
     }
   ]
