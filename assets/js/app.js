@@ -218,7 +218,14 @@
         <div>
           <h4>Contacto</h4>
           <p class="m-0">WhatsApp: <a href="https://wa.me/527226128347" target="_blank" rel="noopener">+52 722 612 8347</a></p>
-<p class="m-0">Correo: <a href="mailto:rodolfoalexis45@gmail.com,danielamore1151@gmail.com?subject=🌸%20Nuevo%20Cliente%20-%20Lovelane%20Meleara&body=👤%20Nombre%20del%20cliente:%0D%0A📞%20Teléfono:%0D%0A📧%20Correo:%0D%0A🎁%20Producto/Servicio%20de%20interés:%0D%0A💰%20Precio%20cotizado:%0D%0A💳%20Anticipo%20(%25):%0D%0A📅%20Fecha%20de%20entrega:%0D%0A📝%20Notas%20adicionales:%0D%0A%0D%0AGracias,%20quedo%20atento%20a%20confirmación%20🌟">✉️ Enviar Presentación de Cliente</a></p>
+<p class="m-0">
+  Correo: 
+  <a target="_blank" 
+     href="https://mail.google.com/mail/?view=cm&fs=1&to=rodolfoalexis45@gmail.com,co1@gmail.com,co2@gmail.com&su=🌸%20Nuevo%20Cliente%20-%20Lovelane%20Meleara&body=👤%20Nombre%20del%20cliente:%0D%0A📞%20Teléfono:%0D%0A📧%20Correo:%0D%0A🎁%20Producto/Servicio:%0D%0A💰%20Precio%20cotizado:%0D%0A💳%20Anticipo%20(%25):%0D%0A📅%20Fecha%20de%20entrega:%0D%0A📝%20Notas:%0D%0A%0D%0AGracias,%20quedo%20atento%20a%20confirmación%20🌟">
+    ✉️ Enviar Presentación de Cliente
+  </a>
+</p>
+
           <p class="m-0">Pagos: En tarjeta, Depositos, MercadoPago y Transferencia</p>
         </div>
       </div>`;
