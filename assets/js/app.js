@@ -221,7 +221,7 @@
 <p class="m-0">
   Correo: 
   <a target="_blank" 
-     href="https://mail.google.com/mail/?view=cm&fs=1&to=rodolfoalexis45@gmail.com,co1@gmail.com,co2@gmail.com&su=🌸%20Nuevo%20Cliente%20-%20Lovelane%20Meleara&body=👤%20Nombre%20del%20cliente:%0D%0A📞%20Teléfono:%0D%0A📧%20Correo:%0D%0A🎁%20Producto/Servicio:%0D%0A💰%20Precio%20cotizado:%0D%0A💳%20Anticipo%20(%25):%0D%0A📅%20Fecha%20de%20entrega:%0D%0A📝%20Notas:%0D%0A%0D%0AGracias,%20quedo%20atento%20a%20confirmación%20🌟">
+     href="https://mail.google.com/mail/?view=cm&fs=1&to=rodolfoalexis45@gmail.com,danielamore1151@gmail.com&su=🌸%20Nuevo%20Cliente%20-%20Lovelane%20Meleara&body=👤%20Nombre%20del%20cliente:%0D%0A📞%20Teléfono:%0D%0A📧%20Correo:%0D%0A🎁%20Producto/Servicio:%0D%0A💰%20Precio%20cotizado:%0D%0A💳%20Anticipo%20(%25):%0D%0A📅%20Fecha%20de%20entrega:%0D%0A📝%20Notas:%0D%0A%0D%0AGracias,%20quedo%20atento%20a%20confirmación%20🌟">
     ✉️ Enviar Presentación de Cliente
   </a>
 </p>
