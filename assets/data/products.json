@@ -208,8 +208,8 @@
       "desc": "12 Rosas 🌹 + Carta Personalizada 💌.",
       "price": 350,
       "category": "flores",
-      "image": "imagenes/ramo_basico.jpeg",
-      "badge": "Septiembre 🇲🇽🌹",
+      "image": "imagenes/ramo_sep.png",
+      "badge": "Septiembre 🌹",
       "featured": false
     },
     {
@@ -218,7 +218,7 @@
       "desc": "Para guardar tu regalo especial 🎁✨.",
       "price": 250,
       "category": "lamparas",
-      "image": "imagenes/ramo_eterno.png",
+      "image": "imagenes/caja.png",
       "badge": "Caja 🎀",
       "featured": false
     },
@@ -228,7 +228,7 @@
       "desc": "Una carta 💌 llena de cariño 💖 y sentimientos ✨.",
       "price": 60,
       "category": "lamparas",
-      "image": "imagenes/ramo_eterno.png",
+      "image": "imagenes/carta.png",
       "badge": "Carta 💌",
       "featured": false
     }
