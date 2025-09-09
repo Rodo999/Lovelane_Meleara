@@ -207,12 +207,13 @@
         <div>
           <h4>Enlaces</h4>
           <ul>
-            <li><a href="catalogo.html">Catálogo</a></li>
-            <li><a href="cotizacion.html">Cotización</a></li>
-            <li><a href="pagos.html">Métodos de Pago</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="nosotros.html">Nosotros</a></li>
-            <li><a href="blog.html">Blog</a></li>
+            <li><a href="catalogo.html">📦 Catálogo</a></li>
+            <li><a href="cotizacion.html">📝 Cotización</a></li>
+            <li><a href="pagos.html">💳 Métodos de Pago</a></li>
+            <li><a href="contacto.html">📞 Contacto</a></li>
+            <li><a href="nosotros.html">👥 Nosotros</a></li>
+            <li><a href="blog.html">📰 Blog</a></li>
+            <li><a href="formulario-ate.html">🌸 Formulario de Satisfacción</a></li>
           </ul>
         </div>
         <div>
