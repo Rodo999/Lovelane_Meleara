@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encuesta de Atención - Lovelane Meleara</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #fffaf5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+    .form-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      color: #d77a61;
+      margin-bottom: 10px;
+    }
+    p {
+      text-align: center;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: 600;
+      color: #444;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      background: #f1df95;
+      color: #444;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background: #e6cf72;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>🌸 Encuesta de Atención 🌸</h2>
+    <p>Tu opinión es muy importante para mejorar nuestros servicios 💐</p>
+
+    <form action="form1.php" method="POST">
+      
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="producto">¿Qué producto compraste?</label>
+      <input type="text" id="producto" name="producto" placeholder="Ejemplo: Ramo de rosas" required>
+
+      <label for="atencion">¿Cómo calificarías la atención que recibiste?</label>
+      <select id="atencion" name="atencion" required>
+        <option value="">Selecciona una opción</option>
+        <option value="Excelente">🌟 Excelente</option>
+        <option value="Buena">😊 Buena</option>
+        <option value="Regular">😐 Regular</option>
+        <option value="Mala">😞 Mala</option>
+      </select>
+
+      <label for="calidad">¿Cómo calificarías la calidad del producto?</label>
+      <select id="calidad" name="calidad" required>
+        <option value="">Selecciona una opción</option>
+        <option value="Excelente">🌟 Excelente</option>
+        <option value="Buena">😊 Buena</option>
+        <option value="Regular">😐 Regular</option>
+        <option value="Mala">😞 Mala</option>
+      </select>
+
+      <label for="recomendarias">¿Recomendarías Lovelane Meleara a otras personas?</label>
+      <select id="recomendarias" name="recomendarias" required>
+        <option value="">Selecciona una opción</option>
+        <option value="Sí, definitivamente">💖 Sí, definitivamente</option>
+        <option value="Tal vez">🤔 Tal vez</option>
+        <option value="No">🚫 No</option>
+      </select>
+
+      <label for="comentarios">Comentarios adicionales</label>
+      <textarea id="comentarios" name="comentarios" rows="4" placeholder="Escribe tus sugerencias aquí..."></textarea>
+
+      <button type="submit">Enviar Encuesta ✨</button>
+    </form>
+  </div>
+</body>
+</html>
