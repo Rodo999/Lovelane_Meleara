@@ -67,8 +67,11 @@
     <h2>🌸 Encuesta de Atención 🌸</h2>
     <p>Tu opinión es muy importante para mejorar nuestros servicios 💐</p>
 
-    <form action="form1.php" method="POST">
-      
+    <!-- Formulario compatible con Netlify Forms -->
+    <form name="encuesta-atencion" method="POST" data-netlify="true">
+      <!-- Campo oculto necesario para Netlify Forms -->
+      <input type="hidden" name="form-name" value="encuesta-atencion">
+
       <label for="nombre">Nombre completo</label>
       <input type="text" id="nombre" name="nombre" required>
 
@@ -102,7 +105,7 @@
       </select>
 
       <label for="comentarios">Comentarios adicionales</label>
-      <textarea id="comentarios" name="comentarios" rows="4" placeholder="Escribe tus sugerencias aquí, por ejemplo: Por que fue calificaste esa atención? Quién te vendio el ramo? Tus flores favoritas..."></textarea>
+      <textarea id="comentarios" name="comentarios" rows="4" placeholder="Escribe tus sugerencias aquí..."></textarea>
 
       <button type="submit">Enviar Encuesta ✨</button>
     </form>
