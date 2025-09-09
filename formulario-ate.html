@@ -67,9 +67,8 @@
     <h2>🌸 Encuesta de Atención 🌸</h2>
     <p>Tu opinión es muy importante para mejorar nuestros servicios 💐</p>
 
-    <!-- Formulario compatible con Netlify Forms -->
-    <form name="encuesta-atencion" method="POST" data-netlify="true">
-      <!-- Campo oculto necesario para Netlify Forms -->
+    <!-- Formulario compatible con Netlify Forms y redirección -->
+    <form name="encuesta-atencion" method="POST" data-netlify="true" onsubmit="return redirectGracias()">
       <input type="hidden" name="form-name" value="encuesta-atencion">
 
       <label for="nombre">Nombre completo</label>
@@ -110,5 +109,14 @@
       <button type="submit">Enviar Encuesta ✨</button>
     </form>
   </div>
+
+  <script>
+    function redirectGracias() {
+      setTimeout(function() {
+        window.location.href = "gracias.html";
+      }, 100);
+      return true;
+    }
+  </script>
 </body>
 </html>
